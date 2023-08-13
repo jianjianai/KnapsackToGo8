@@ -60,15 +60,15 @@ class IClientManager implements ClientManager {
         a:synchronized(this){
             if(getClient(webSocket)!=null){
                 handshakeMessageClient = new HandshakeMessageClient(){{
-                    ok=false;
-                    reason = "已经完成握手，请勿重复发送握手包！";
+                    this.ok=false;
+                    this.reason = "已经完成握手，请勿重复发送握手包！";
                 }};
                 break a;
             }
             if(getClient(handshakeMessageServer.serverID)!=null){
                 handshakeMessageClient = new HandshakeMessageClient(){{
-                    ok=false;
-                    reason = "服务器ID"+handshakeMessageServer.serverID+"已经连接，清确保所有服务器ID唯一。";
+                    this.ok=false;
+                    this.reason = "服务器ID"+handshakeMessageServer.serverID+"已经连接，清确保所有服务器ID唯一。";
                 }};
                 break a;
             }
@@ -78,14 +78,14 @@ class IClientManager implements ClientManager {
                     handshakeMessageServer.serverType
             ));
             handshakeMessageClient = new HandshakeMessageClient(){{
-                ok=true;
-                reason = null;
+                this.ok=true;
+                this.reason = null;
             }};
         }
         //发送握手成功信息
         webSocket.send(JSON.toJSONString(new BaseMessage(){{
-            type = BaseType.handshake;
-            data = JSONObject.from(handshakeMessageClient);
+            this.type = BaseType.handshake;
+            this.data = JSONObject.from(handshakeMessageClient);
         }}));
         //打印日志
         if(client!=null){
