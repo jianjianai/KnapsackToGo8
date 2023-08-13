@@ -1,0 +1,7 @@
+rootProject.name = 'KnapsackToGo8'
+include 'KnapsackToGo8-Server'
+include 'CommunicationTypes'
+include 'KnapsackToGo8-ClientCore'
+
+
+

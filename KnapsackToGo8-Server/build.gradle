@@ -1,0 +1,30 @@
+plugins{
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group 'cn.jjaw.ktg8'
+
+
+dependencies {
+    //日志
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.slf4j:slf4j-simple:2.0.7'
+    //WebSocket
+    implementation 'org.java-websocket:Java-WebSocket:1.5.4'
+    //配置文件工具
+    implementation 'com.gitee.jja8:JJAConfigTool:2022.12.28'
+    //fastjson2
+    implementation 'com.alibaba.fastjson2:fastjson2:2.0.38'
+    //base
+    implementation project(":CommunicationTypes")
+}
+
+test {
+
+}
+
+jar{
+    manifest {
+        attributes 'Main-Class': 'cn.jjaw.ktg8.server.Main'
+    }
+}
