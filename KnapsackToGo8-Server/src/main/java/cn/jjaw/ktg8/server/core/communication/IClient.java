@@ -51,11 +51,11 @@ class IClient implements Client {
         }
         //发送数据消息
         webSocket.send(JSON.toJSONString(new BaseMessage(){{
-            type = BaseType.data;
-            data = JSONObject.from(new DataMessage(){{
-                plugin = pluginName;
-                id = iId;
-                data = jsonObject;
+            this.type = BaseType.data;
+            this.data = JSONObject.from(new DataMessage(){{
+                this.plugin = pluginName;
+                this.id = iId;
+                this.data = jsonObject;
             }});
         }}));
     }

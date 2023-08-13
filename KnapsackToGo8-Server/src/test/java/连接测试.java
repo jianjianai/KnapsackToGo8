@@ -43,14 +43,16 @@ public class 连接测试 {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-
+                System.out.println("eeeeeeeeeeeeeeeeeeeeeeeee");
+                this.connect();
             }
 
             @Override
             public void onError(Exception ex) {
-
+                System.out.println(ex);
             }
         };
         webSocketClient.connect();
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaa");
     }
 }
