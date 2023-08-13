@@ -3,6 +3,7 @@ package cn.jjaw.ktg8.communication.type.parse;
 import cn.jjaw.ktg8.communication.type.censor.Check;
 import cn.jjaw.ktg8.communication.type.message.BaseMessage;
 import cn.jjaw.ktg8.communication.type.message.data.DataMessage;
+import cn.jjaw.ktg8.communication.type.message.handshake.client.HandshakeMessageClient;
 import cn.jjaw.ktg8.communication.type.message.handshake.server.HandshakeMessageServer;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
@@ -41,5 +42,12 @@ public class Parser {
      */
     public static  DataMessage ofDataMessage(JSONObject jsonObject){
         return Check.check(jsonObject.to(DataMessage.class));
+    }
+    /**
+     * 将json对象解析为HandshakeMessageServer并检查合法性
+     * @return null 发生错误或字符串为空
+     */
+    public static HandshakeMessageClient ofHandshakeMessageClient(JSONObject jsonObject){
+        return Check.check(jsonObject.to(HandshakeMessageClient.class));
     }
 }
