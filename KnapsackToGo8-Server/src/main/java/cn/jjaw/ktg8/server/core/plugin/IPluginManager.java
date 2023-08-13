@@ -19,6 +19,20 @@ import static cn.jjaw.ktg8.server.Logger.logger;
 
 public class IPluginManager implements PluginManager {
      private final Map<String, KTG8Plugin> pluginMap = new HashMap<>();
+     private boolean isCanAdd = true;
+
+    /**
+     * 添加一个插件
+     */
+     public void addPlugin(KTG8Plugin ktg8Plugin){
+         if(!isCanAdd){
+             throw new Error("加载阶段已结束，无法继续添加插件！必须load前触发添加插件。");
+         }
+         if(pluginMap.containsKey(ktg8Plugin.getName())){
+             throw new Error(ktg8Plugin.getName()+" 有一个同名的插件已注册！");
+         }
+         pluginMap.put(ktg8Plugin.getName(),ktg8Plugin);
+     }
     /**
      * 初始化插件列表
      */
@@ -84,15 +98,13 @@ public class IPluginManager implements PluginManager {
                     logger.warn("在 "+url+" 中 "+main+" 类,需要有一个无参构造方法才能作为插件加载。");
                     continue;
                 }
-                KTG8Plugin ktg8Plugin;
                 try {
-                    ktg8Plugin = (KTG8Plugin) constructor.newInstance();
+                    constructor.newInstance();
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     logger.warn("在 "+url+" 中 "+main+" 类,的无参构造方法必须为public");
                     e.printStackTrace();
                     continue;
                 }
-                pluginMap.put(ktg8Plugin.getName(), ktg8Plugin);
             }
         }
     }
@@ -101,6 +113,7 @@ public class IPluginManager implements PluginManager {
      * 运行load
      */
     public void load(){
+        isCanAdd = false;
         dependRun(ktg8Plugin -> {
             try {
                 logger.info("初始化插件 "+ktg8Plugin.getName());
@@ -115,6 +128,7 @@ public class IPluginManager implements PluginManager {
      * 运行enable
      */
     public void enable(){
+        isCanAdd = false;
         dependRun(ktg8Plugin -> {
             try {
                 logger.info("启动插件 "+ktg8Plugin.getName());
