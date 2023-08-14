@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.communication.type.message.handshake.server;
+package cn.jjaw.ktg8.type.core;
 
 public enum ServerType {
     /**

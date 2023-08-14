@@ -2,10 +2,13 @@ package cn.jjaw.ktg8.server.api;
 
 import cn.jjaw.ktg8.server.Main;
 import cn.jjaw.ktg8.server.core.IPluginManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public abstract class KTG8Plugin {
+    private final Logger logger;
     private final IPluginManager pluginManager;
     private final String name;
     private final String[] depends;
@@ -24,6 +27,7 @@ public abstract class KTG8Plugin {
         this.name = name;
         this.depends = depends;
         pluginManager.addPlugin(this);
+        logger = LoggerFactory.getLogger(name);
     }
 
     /**
@@ -59,7 +63,9 @@ public abstract class KTG8Plugin {
     }
 
 
-
+    public Logger getLogger() {
+        return logger;
+    }
 
     /**
      * 加载时，此时 KTG8Server 还未加载

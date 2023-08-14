@@ -1,15 +1,16 @@
 package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.communication.type.message.BaseMessage;
-import cn.jjaw.ktg8.communication.type.message.data.DataMessage;
-import cn.jjaw.ktg8.communication.type.message.handshake.server.HandshakeMessageServer;
 import cn.jjaw.ktg8.server.api.KTG8Server;
+import cn.jjaw.ktg8.type.core.BaseMessage;
+import cn.jjaw.ktg8.type.core.DataMessage;
+import cn.jjaw.ktg8.type.core.HandshakeMessageServer;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 
 import java.net.InetSocketAddress;
 
-import static cn.jjaw.ktg8.communication.type.parse.Parser.*;
 import static cn.jjaw.ktg8.server.core.Logger.logger;
 
 public class IKTG8Server implements KTG8Server {
@@ -38,22 +39,30 @@ public class IKTG8Server implements KTG8Server {
     }
 
     private void onMessage(WebSocket conn, String message) {
-        BaseMessage baseMessage = ofBaseMessage(message);
-        if(baseMessage==null){
+        BaseMessage baseMessage = null;
+        try {
+            baseMessage = JSON.parseObject(message,BaseMessage.class);
+        }catch (JSONException jsonException){
+            jsonException.printStackTrace();
+        }
+        if(baseMessage==null || baseMessage.type()==null || baseMessage.data()==null){
+            logger.warn("收到来自 "+conn.getRemoteSocketAddress()+" 的消息不规范 obj:BaseMessage:"+baseMessage+" json:"+message);
             conn.close();
             return;
         }
-        switch (baseMessage.type){
+        switch (baseMessage.type()){
             case handshake -> {
-                HandshakeMessageServer handshakeMessageServer = ofHandshakeMessageServer(baseMessage.data);
-                if(handshakeMessageServer ==null){
+                HandshakeMessageServer handshake = baseMessage.data().to(HandshakeMessageServer.class);
+                if(handshake ==null || handshake.serverID()==null || handshake.serverType()==null){
+                    logger.warn("收到来自 "+conn.getRemoteSocketAddress()+" 的消息不规范 obj:HandshakeMessageServer:"+handshake+" json:"+baseMessage.data());
                     break;
                 }
-                clientManager.onHandshake(conn,handshakeMessageServer);
+                clientManager.onHandshake(conn,handshake);
             }
             case data -> {
-                DataMessage dataMessage = ofDataMessage(baseMessage.data);
-                if(dataMessage==null){
+                DataMessage dataMessage = baseMessage.data().to(DataMessage.class);
+                if(dataMessage==null || dataMessage.id()==null || dataMessage.plugin()==null){
+                    logger.warn("收到来自 "+conn.getRemoteSocketAddress()+" 的消息不规范 obj:DataMessage:"+dataMessage+" json:"+baseMessage.data());
                     break;
                 }
                 clientManager.onMessage(conn,dataMessage);

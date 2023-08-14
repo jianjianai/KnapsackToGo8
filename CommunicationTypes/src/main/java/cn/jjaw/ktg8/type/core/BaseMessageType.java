@@ -1,9 +1,9 @@
-package cn.jjaw.ktg8.communication.type.message;
+package cn.jjaw.ktg8.type.core;
 
 /**
  * 消息类型
  */
-public enum BaseType {
+public enum BaseMessageType {
     /**
      * 握握手
      */

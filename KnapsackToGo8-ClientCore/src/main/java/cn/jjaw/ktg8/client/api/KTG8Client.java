@@ -1,6 +1,6 @@
 package cn.jjaw.ktg8.client.api;
 
-import cn.jjaw.ktg8.communication.type.message.handshake.server.ServerType;
+import cn.jjaw.ktg8.type.core.ServerType;
 import com.alibaba.fastjson2.JSONObject;
 
 public interface KTG8Client {

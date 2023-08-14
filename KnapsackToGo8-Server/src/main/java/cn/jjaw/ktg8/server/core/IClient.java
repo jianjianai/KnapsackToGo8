@@ -1,9 +1,9 @@
 package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.communication.type.message.BaseMessage;
-import cn.jjaw.ktg8.communication.type.message.BaseType;
-import cn.jjaw.ktg8.communication.type.message.data.DataMessage;
-import cn.jjaw.ktg8.communication.type.message.handshake.server.ServerType;
+import cn.jjaw.ktg8.type.core.BaseMessage;
+import cn.jjaw.ktg8.type.core.BaseMessageType;
+import cn.jjaw.ktg8.type.core.DataMessage;
+import cn.jjaw.ktg8.type.core.ServerType;
 import cn.jjaw.ktg8.server.api.Client;
 import cn.jjaw.ktg8.server.api.KTG8Plugin;
 import com.alibaba.fastjson2.JSON;
@@ -50,14 +50,14 @@ class IClient implements Client {
             return;
         }
         //发送数据消息
-        webSocket.send(JSON.toJSONString(new BaseMessage(){{
-            this.type = BaseType.data;
-            this.data = JSONObject.from(new DataMessage(){{
-                this.plugin = pluginName;
-                this.id = iId;
-                this.data = jsonObject;
-            }});
-        }}));
+        webSocket.send(JSON.toJSONString(new BaseMessage(
+                BaseMessageType.data,
+                JSONObject.from(new DataMessage(
+                        pluginName,
+                        iId,
+                        jsonObject
+                ))
+        )));
     }
 
     /**

@@ -4,20 +4,15 @@ import cn.jjaw.ktg8.client.api.ClientMessageListenerManager;
 import cn.jjaw.ktg8.client.api.ClientPluginManager;
 import cn.jjaw.ktg8.client.api.KTG8Client;
 import cn.jjaw.ktg8.client.api.KTG8ClientPlugin;
-import cn.jjaw.ktg8.communication.type.message.BaseMessage;
-import cn.jjaw.ktg8.communication.type.message.BaseType;
-import cn.jjaw.ktg8.communication.type.message.data.DataMessage;
-import cn.jjaw.ktg8.communication.type.message.handshake.client.HandshakeMessageClient;
-import cn.jjaw.ktg8.communication.type.message.handshake.server.HandshakeMessageServer;
-import cn.jjaw.ktg8.communication.type.message.handshake.server.ServerType;
+import cn.jjaw.ktg8.type.core.*;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 
 import static cn.jjaw.ktg8.client.core.Logger.logger;
-import static cn.jjaw.ktg8.communication.type.parse.Parser.*;
 
 public abstract class IKTG8Client implements KTG8Client{
     private final IPluginManager pluginManager = new IPluginManager(this);
@@ -41,52 +36,57 @@ public abstract class IKTG8Client implements KTG8Client{
 
     private void onOpen(ServerHandshake handshakedata) {
         //发送握手包
-        webSocketClient.send(JSON.toJSONString(new BaseMessage(){{
-            type = BaseType.handshake;
-            data = JSONObject.from(new HandshakeMessageServer(){{
-                this.version = 0;
-                this.serverID = IKTG8Client.this.serverID;
-                this.serverType = IKTG8Client.this.serverType;
-            }});
-        }}));
+        webSocketClient.send(JSON.toJSONString(new BaseMessage(
+                BaseMessageType.handshake,
+                JSONObject.from(new HandshakeMessageServer(
+                        0,
+                        serverID,
+                        serverType
+                )))
+        ));
     }
 
     private void onMessage(String message) {
-        BaseMessage baseMessage = ofBaseMessage(message);
-        if (baseMessage==null){
-            logger.error("收到来自服务器的无法解析或不规范的消息！ : "+message);
+        BaseMessage baseMessage = null;
+        try {
+            baseMessage = JSON.parseObject(message,BaseMessage.class);
+        }catch (JSONException jsonException){
+            jsonException.printStackTrace();
+        }
+        if (baseMessage==null || baseMessage.type()==null || baseMessage.data()==null){
+            logger.warn("收到来自服务器的消息不规范 obj:BaseMessage:"+baseMessage+" json:"+message);
             webSocketClient.close();
             return;
         }
-        switch (baseMessage.type) {
+        switch (baseMessage.type()) {
             case handshake -> {
-                HandshakeMessageClient handshakeMessageClient = ofHandshakeMessageClient(baseMessage.data);
-                if (handshakeMessageClient == null) {
-                    logger.error("收到来自服务器的握手消息不规范！ : " + message);
+                HandshakeMessageClient handshake = baseMessage.data().to(HandshakeMessageClient.class);
+                if (handshake == null) {
+                    logger.warn("收到来自服务器的消息不规范 obj:HandshakeMessageClient:null json:"+baseMessage.data());
                     webSocketClient.close();
                     break;
                 }
-                if(!handshakeMessageClient.ok){
+                if(!handshake.ok()){
                     webSocketClient.close();
-                    onDenied(handshakeMessageClient.reason);
+                    onDenied(handshake.reason());
                     break;
                 }
                 logger.info("连接KTG8服务器成功！");
                 onHandshake();
             }
             case data -> {
-                DataMessage dataMessage = ofDataMessage(baseMessage.data);
-                if (dataMessage==null){
+                DataMessage dataMessage = baseMessage.data().to(DataMessage.class);
+                if (dataMessage==null || dataMessage.id()==null || dataMessage.plugin()==null){
+                    logger.warn("收到来自服务器的消息不规范 obj:HandshakeMessageClient:"+dataMessage+" json:"+baseMessage.data());
                     webSocketClient.close();
-                    logger.error("收到来自服务器的消息不规范！ : " + message);
                     break;
                 }
-                IMessageListenWorker listenWorker = messageListenerManager.getListenWorker(dataMessage.plugin, dataMessage.id);
+                IMessageListenWorker listenWorker = messageListenerManager.getListenWorker(dataMessage.plugin(), dataMessage.id());
                 if(listenWorker==null){
-                    logger.warn("没有找到"+dataMessage.plugin+":"+dataMessage.id+"监听器！");
+                    logger.warn("没有找到"+dataMessage.plugin()+":"+dataMessage.id()+"监听器！");
                     return;
                 }
-                listenWorker.onMessage(dataMessage.data);
+                listenWorker.onMessage(dataMessage.data());
             }
         }
 
@@ -140,14 +140,14 @@ public abstract class IKTG8Client implements KTG8Client{
             return;
         }
         //发送数据消息
-        webSocketClient.send(JSON.toJSONString(new BaseMessage(){{
-            this.type = BaseType.data;
-            this.data = JSONObject.from(new DataMessage(){{
-                this.plugin = pluginName;
-                this.id = iId;
-                this.data = jsonObject;
-            }});
-        }}));
+        webSocketClient.send(JSON.toJSONString(new BaseMessage(
+                BaseMessageType.data,
+                JSONObject.from(new DataMessage(
+                        pluginName,
+                        iId,
+                        jsonObject
+                )))
+        ));
     }
 
     @Override

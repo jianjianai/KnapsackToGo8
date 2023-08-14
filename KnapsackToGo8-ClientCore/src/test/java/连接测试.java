@@ -1,5 +1,5 @@
 import cn.jjaw.ktg8.client.core.IKTG8Client;
-import cn.jjaw.ktg8.communication.type.message.handshake.server.ServerType;
+import cn.jjaw.ktg8.type.core.ServerType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
