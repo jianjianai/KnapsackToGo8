@@ -2,7 +2,9 @@ package cn.jjaw.ktg8.client.core;
 
 import cn.jjaw.ktg8.client.api.ClientPluginManager;
 import cn.jjaw.ktg8.client.api.KTG8ClientPlugin;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class IPluginManager implements ClientPluginManager {
@@ -28,7 +30,8 @@ public class IPluginManager implements ClientPluginManager {
         return new KTG8ClientPlugin(this,name);
     }
 
-    public IKTG8Client getKtg8Client() {
+    @Override
+    public IKTG8Client getKTG8Client() {
         return ktg8Client;
     }
 }

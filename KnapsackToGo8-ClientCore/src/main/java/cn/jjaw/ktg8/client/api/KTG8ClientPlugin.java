@@ -17,7 +17,7 @@ public class KTG8ClientPlugin {
      * 服务器发送消息，会阻塞线程
      */
     public void sendMessage(String id, JSONObject jsonObject){
-        pluginManager.getKtg8Client().sendMessage(this,id,jsonObject);
+        pluginManager.getKTG8Client().sendMessage(this,id,jsonObject);
     }
 
     /**
