@@ -59,7 +59,7 @@ public class RequestAccept{
             if (requestAccept.acceptResponse()){
                 ktg8Plugin.sendMessage(listenerID,JSONObject.from(new RSRequestSend(
                         requestAccept.id(),
-                        RSRequestSend.RSRequestSendType.error,
+                        RSRequestSend.RSRequestSendType.ok,
                         res
                 )));
                 break a;
