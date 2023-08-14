@@ -23,7 +23,11 @@ class IMessageListenWorker implements ClientMessageListenWorker {
      * 当收到消息时
      */
     void onMessage(JSONObject data) {
-        messageListener.onMessage(data,this);
+        try {
+            messageListener.onMessage(data,this);
+        }catch (Throwable throwable){
+            throwable.printStackTrace();
+        }
     }
 
     @Override
