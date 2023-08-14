@@ -1,12 +1,12 @@
-package cn.jjaw.ktg8.server.core.communication;
+package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.communication.type.message.BaseMessage;
 import cn.jjaw.ktg8.communication.type.message.BaseType;
 import cn.jjaw.ktg8.communication.type.message.data.DataMessage;
 import cn.jjaw.ktg8.communication.type.message.handshake.client.HandshakeMessageClient;
 import cn.jjaw.ktg8.communication.type.message.handshake.server.HandshakeMessageServer;
-import cn.jjaw.ktg8.server.api.communication.Client;
-import cn.jjaw.ktg8.server.api.communication.ClientManager;
+import cn.jjaw.ktg8.server.api.Client;
+import cn.jjaw.ktg8.server.api.ClientManager;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import org.java_websocket.WebSocket;
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static cn.jjaw.ktg8.server.Logger.logger;
+import static cn.jjaw.ktg8.server.core.Logger.logger;
 
 /***
  * 客户端管理器
@@ -29,10 +29,12 @@ class IClientManager implements ClientManager {
         this.listenerManager = ktg4Server.getMessageListenerManager();
     }
 
+
     void addIClient(IClient iClient){
         clientNameMap.put(iClient.serverID,iClient);
         clientMap.put(iClient.webSocket, iClient);
     }
+
     void removeIClient(IClient iClient){
         clientNameMap.remove(iClient.serverID);
         clientMap.remove(iClient.webSocket);

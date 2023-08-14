@@ -1,8 +1,8 @@
-package cn.jjaw.ktg8.server.core.communication;
+package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.server.api.plugin.KTG8Plugin;
-import cn.jjaw.ktg8.server.api.communication.MessageListenWorker;
-import cn.jjaw.ktg8.server.api.communication.MessageListener;
+import cn.jjaw.ktg8.server.api.KTG8Plugin;
+import cn.jjaw.ktg8.server.api.MessageListenWorker;
+import cn.jjaw.ktg8.server.api.MessageListener;
 import com.alibaba.fastjson2.JSONObject;
 
 /**
@@ -23,7 +23,11 @@ class IMessageListenWorker implements MessageListenWorker {
      * 当收到消息时
      */
     void onMessage(IClient client, JSONObject data) {
-        messageListener.onMessage(client,data,this);
+        try {
+            messageListener.onMessage(client,data,this);
+        }catch (Throwable throwable){
+            throwable.printStackTrace();
+        }
     }
 
     @Override

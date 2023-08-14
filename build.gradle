@@ -3,7 +3,7 @@ allprojects {
     apply plugin: "java"
 
     group 'cn.jjaw.ktg8'
-    version '8.0.1'
+    version '8.0.2'
 
     repositories {
         maven {

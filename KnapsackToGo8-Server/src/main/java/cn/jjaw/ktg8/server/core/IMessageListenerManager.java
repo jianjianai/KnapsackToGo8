@@ -1,9 +1,9 @@
-package cn.jjaw.ktg8.server.core.communication;
+package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.server.api.communication.MessageListenWorker;
-import cn.jjaw.ktg8.server.api.plugin.KTG8Plugin;
-import cn.jjaw.ktg8.server.api.communication.MessageListener;
-import cn.jjaw.ktg8.server.api.communication.MessageListenerManager;
+import cn.jjaw.ktg8.server.api.MessageListenWorker;
+import cn.jjaw.ktg8.server.api.KTG8Plugin;
+import cn.jjaw.ktg8.server.api.MessageListener;
+import cn.jjaw.ktg8.server.api.MessageListenerManager;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.server.api.communication;
+package cn.jjaw.ktg8.server.api;
 
 import com.alibaba.fastjson2.JSONObject;
 

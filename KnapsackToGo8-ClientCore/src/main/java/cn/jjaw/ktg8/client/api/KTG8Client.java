@@ -16,7 +16,7 @@ public interface KTG8Client {
     String getServerID();
 
     /**
-     * 服务器发送消息
+     * 服务器发送消息，会阻塞线程
      */
     void sendMessage(KTG8ClientPlugin plugin, String id, JSONObject jsonObject);
 

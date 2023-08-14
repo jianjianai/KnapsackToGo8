@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.server.api.communication;
+package cn.jjaw.ktg8.server.api;
 
 public interface KTG8Server {
 

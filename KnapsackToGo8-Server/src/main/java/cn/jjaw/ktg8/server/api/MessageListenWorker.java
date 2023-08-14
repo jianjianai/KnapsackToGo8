@@ -1,6 +1,4 @@
-package cn.jjaw.ktg8.server.api.communication;
-
-import cn.jjaw.ktg8.server.api.plugin.KTG8Plugin;
+package cn.jjaw.ktg8.server.api;
 
 public interface MessageListenWorker {
 

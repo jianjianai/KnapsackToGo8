@@ -1,7 +1,7 @@
-package cn.jjaw.ktg8.server.core.plugin;
+package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.server.api.plugin.KTG8Plugin;
-import cn.jjaw.ktg8.server.api.plugin.PluginManager;
+import cn.jjaw.ktg8.server.api.KTG8Plugin;
+import cn.jjaw.ktg8.server.api.PluginManager;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
@@ -15,7 +15,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
 
-import static cn.jjaw.ktg8.server.Logger.logger;
+import static cn.jjaw.ktg8.server.core.Logger.logger;
 
 public class IPluginManager implements PluginManager {
      private final Map<String, KTG8Plugin> pluginMap = new HashMap<>();
@@ -44,7 +44,7 @@ public class IPluginManager implements PluginManager {
             return;
         }
         File[] jars = Arrays.stream(fs)
-                .filter(file -> file.isFile() || file.getName().toLowerCase().endsWith(".jar"))
+                .filter(file -> file.isFile() && file.getName().toLowerCase().endsWith(".jar"))
                 .toArray(File[]::new);
 
         for (File jar : jars) {

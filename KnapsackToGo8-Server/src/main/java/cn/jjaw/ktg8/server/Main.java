@@ -2,13 +2,14 @@ package cn.jjaw.ktg8.server;
 
 
 import cn.jja8.config.tool.YamlConfig;
-import cn.jjaw.ktg8.server.core.communication.CommunicationConfig;
-import cn.jjaw.ktg8.server.core.communication.IKTG8Server;
-import cn.jjaw.ktg8.server.core.plugin.IPluginManager;
+import cn.jjaw.ktg8.server.builtin.Builtin;
+import cn.jjaw.ktg8.server.core.CommunicationConfig;
+import cn.jjaw.ktg8.server.core.IKTG8Server;
+import cn.jjaw.ktg8.server.core.IPluginManager;
 
 import java.io.File;
 
-import static cn.jjaw.ktg8.server.Logger.logger;
+import static cn.jjaw.ktg8.server.core.Logger.logger;
 
 public class Main {
     private static IKTG8Server ktg8Server;
@@ -38,6 +39,7 @@ public class Main {
         logger.info("正在加载插件管理器 ..");
         PluginManager = new IPluginManager();
         logger.info("正在加载插件包 ..");
+        Builtin.initializationAll();
         PluginManager.initialization();
         logger.info("正在初始化插件 ..");
         PluginManager.load();

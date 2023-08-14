@@ -1,16 +1,16 @@
-package cn.jjaw.ktg8.server.core.communication;
+package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.communication.type.message.BaseMessage;
 import cn.jjaw.ktg8.communication.type.message.data.DataMessage;
 import cn.jjaw.ktg8.communication.type.message.handshake.server.HandshakeMessageServer;
-import cn.jjaw.ktg8.server.api.communication.KTG8Server;
+import cn.jjaw.ktg8.server.api.KTG8Server;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 
 import java.net.InetSocketAddress;
 
 import static cn.jjaw.ktg8.communication.type.parse.Parser.*;
-import static cn.jjaw.ktg8.server.Logger.logger;
+import static cn.jjaw.ktg8.server.core.Logger.logger;
 
 public class IKTG8Server implements KTG8Server {
     private final WebSocketServer webSocketServer;

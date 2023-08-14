@@ -1,7 +1,9 @@
-package cn.jjaw.ktg8.server.api.plugin;
+package cn.jjaw.ktg8.server.api;
 
 import cn.jjaw.ktg8.server.Main;
-import cn.jjaw.ktg8.server.core.plugin.IPluginManager;
+import cn.jjaw.ktg8.server.core.IPluginManager;
+
+import java.io.File;
 
 public abstract class KTG8Plugin {
     private final IPluginManager pluginManager;
@@ -38,7 +40,12 @@ public abstract class KTG8Plugin {
         return depends;
     }
 
-
+    /**
+     * 获取数据文件夹
+     */
+    public File dataFolder(){
+        return new File(new File("plugins"),name);
+    }
 
 
     @Override

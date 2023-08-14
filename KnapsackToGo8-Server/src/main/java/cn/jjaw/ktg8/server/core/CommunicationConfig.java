@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.server.core.communication;
+package cn.jjaw.ktg8.server.core;
 
 import cn.jja8.config.tool.Conf;
 

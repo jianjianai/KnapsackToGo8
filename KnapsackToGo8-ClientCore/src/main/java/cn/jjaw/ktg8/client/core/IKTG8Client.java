@@ -16,7 +16,7 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 
-import static cn.jjaw.ktg8.client.Logger.logger;
+import static cn.jjaw.ktg8.client.core.Logger.logger;
 import static cn.jjaw.ktg8.communication.type.parse.Parser.*;
 
 public abstract class IKTG8Client implements KTG8Client{

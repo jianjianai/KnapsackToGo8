@@ -1,11 +1,11 @@
-package cn.jjaw.ktg8.server.core.communication;
+package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.communication.type.message.BaseMessage;
 import cn.jjaw.ktg8.communication.type.message.BaseType;
 import cn.jjaw.ktg8.communication.type.message.data.DataMessage;
 import cn.jjaw.ktg8.communication.type.message.handshake.server.ServerType;
-import cn.jjaw.ktg8.server.api.communication.Client;
-import cn.jjaw.ktg8.server.api.plugin.KTG8Plugin;
+import cn.jjaw.ktg8.server.api.Client;
+import cn.jjaw.ktg8.server.api.KTG8Plugin;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import org.java_websocket.WebSocket;
