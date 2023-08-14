@@ -105,7 +105,7 @@ public class RequestAccept{
         return this;
     }
 
-    interface Worker{
+    public interface Worker{
         /**
          * 当收到请求
          * @param client 发起请求的客户端

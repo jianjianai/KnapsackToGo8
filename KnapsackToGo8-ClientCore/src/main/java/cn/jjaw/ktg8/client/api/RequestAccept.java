@@ -105,7 +105,7 @@ public class RequestAccept{
         return this;
     }
 
-    interface Worker{
+    public interface Worker{
         /**
          * 当收到请求
          * @param requestData 请求的数据

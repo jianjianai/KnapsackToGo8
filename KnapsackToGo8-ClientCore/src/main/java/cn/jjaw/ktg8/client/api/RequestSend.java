@@ -96,14 +96,14 @@ public class RequestSend {
 
     record Accepts(AcceptResponse acceptResponse,AcceptError acceptError){}
 
-    interface AcceptResponse{
+    public interface AcceptResponse{
         /**
          * @param response 响应结果
          */
         void accept(JSONObject response);
     }
 
-    interface AcceptError{
+    public interface AcceptError{
         /**
          * @param code 错误代码
          * @param reason 原因
