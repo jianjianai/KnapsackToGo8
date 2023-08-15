@@ -4,9 +4,9 @@ displayName: 构建并发布
 triggers:
   trigger: auto
   push:
-    tags:
-      include:
-        - ^[0-9]+\.[0-9]+\.[0-9]+$
+    branches:
+      precise:
+        - master
 stages:
   - name: build
     displayName: 构建
@@ -21,15 +21,45 @@ stages:
         certificate: ''
         image: gradle:8.2.1-jdk17-jammy
         command:
-          - chmod +x ./gradlew
-          - ./gradlew build
-          - ./gradlew shadow
+          - '## chmod +x ./gradlew'
+          - gradle build
+          - gradle shadow
         artifacts:
           - name: jars
             path:
-              - ./CommunicationTypes/build/libs
-              - ./KnapsackToGo8-ClientCore/build/libs
-              - ./KnapsackToGo8-Server/build/libs
+              - '*/build/libs/*'
+        notify: []
+        strategy:
+          retry: '0'
+          timeout: 10
+  - name: toup
+    displayName: 上传作品
+    strategy: naturally
+    trigger: auto
+    executor:
+      - jja8
+    steps:
+      - step: publish@general_artifacts
+        name: publish_general_artifacts
+        displayName: 上传制品
+        dependArtifact: jars
+        artifactName: output
+        notify: []
+        strategy:
+          retry: '0'
+  - name: stage-3e42018f
+    displayName: 发布
+    strategy: naturally
+    trigger: auto
+    executor:
+      - jja8
+    steps:
+      - step: publish@release_artifacts
+        name: publish_release_artifacts
+        displayName: 发布
+        dependArtifact: output
+        version: 1.0.0.0
+        autoIncrement: true
         notify: []
         strategy:
           retry: '0'
