@@ -26,4 +26,11 @@ public class KTG8ClientPlugin {
     public String getName() {
         return name;
     }
+
+    /**
+     * 获取插件管理器
+     */
+    public ClientPluginManager getPluginManager() {
+        return pluginManager;
+    }
 }

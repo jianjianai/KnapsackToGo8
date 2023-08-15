@@ -204,6 +204,11 @@ public abstract class IKTG8Client implements KTG8Client{
         return serverID;
     }
 
+    @Override
+    public ScheduledThreadPoolExecutor getExecutor() {
+        return executor;
+    }
+
     /**
      * 打开连接
      */

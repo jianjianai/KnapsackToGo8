@@ -3,6 +3,8 @@ package cn.jjaw.ktg8.client.api;
 import cn.jjaw.ktg8.type.core.ServerType;
 import com.alibaba.fastjson2.JSONObject;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 public interface KTG8Client {
 
     /**
@@ -29,4 +31,9 @@ public interface KTG8Client {
      * 获取插件管理器
      */
     ClientPluginManager getPluginManager();
+
+    /***
+     * 获取线程池，用于定时任务等
+     */
+    ScheduledThreadPoolExecutor getExecutor();
 }

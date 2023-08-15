@@ -7,6 +7,8 @@ import com.alibaba.fastjson2.JSONObject;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static cn.jjaw.ktg8.client.core.Logger.logger;
 
@@ -14,17 +16,20 @@ import static cn.jjaw.ktg8.client.core.Logger.logger;
  *  一个请求接发送器对象，一个简化通信的实现
  */
 public class ClientRequestSend {
+    private final ScheduledThreadPoolExecutor executor;
     private final KTG8ClientPlugin ktg8Plugin;
     private final String listenerID;
     private final ClientMessageListenerManager listenerManager;
     private boolean isStart = false;
     private final Map<Long,Accepts> acceptsMap = new ConcurrentHashMap<>();
     private long nextID = 0;
+    private long timeOut = 30;//超时时间，30秒
 
     public ClientRequestSend(ClientMessageListenerManager messageListenerManager, KTG8ClientPlugin ktg8Plugin, String listenerID) {
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;
+        this.executor = ktg8Plugin.getPluginManager().getKTG8Client().getExecutor();
     }
 
     private void onMessage(JSONObject data, ClientMessageListenWorker messageListenWorker) {
@@ -68,13 +73,38 @@ public class ClientRequestSend {
         boolean acceptResponse = onResponse!=null;
         boolean acceptError = onError!=null;
         if (acceptResponse || acceptError){
-            acceptsMap.put(nextID,new Accepts(onResponse,onError));
+            final long id = nextID;
+            acceptsMap.put(id,new Accepts(onResponse,onError));
+            //设置超时处理
+            executor.schedule(()->{
+                Accepts accepts = acceptsMap.remove(id);
+                if (accepts==null || accepts.acceptError()==null){
+                    return;
+                }
+                try {
+                    accepts.acceptError().accept("timeOut","请求超时,"+timeOut+"秒没有收到回复，对方正常处理了请求吗？");
+                }catch (Throwable throwable){
+                    throwable.printStackTrace();
+                }
+            },timeOut, TimeUnit.SECONDS);
         }
         ktg8Plugin.sendMessage(listenerID, JSONObject.from(
                 new RADataRequestAccept(nextID,acceptResponse,acceptError,requestData))
         );
         return this;
     }
+
+
+    /**
+     * 设置请求超时时间，对方多久不回复为超时
+     *
+     * @param timeOut 超时时间，单位秒
+     */
+    public ClientRequestSend setTimeOut(long timeOut) {
+        this.timeOut = timeOut;
+        return this;
+    }
+
 
     /**
      * 开始发送
