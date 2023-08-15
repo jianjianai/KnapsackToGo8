@@ -22,12 +22,11 @@ stages:
         image: gradle:8.2.1-jdk17-jammy
         command:
           - '## chmod +x ./gradlew'
-          - gradle build
-          - gradle shadow
+          - gradle bulidAllJar
         artifacts:
           - name: jars
             path:
-              - '*/build/libs/*'
+              - 'build/jars/'
         notify: []
         strategy:
           retry: '0'
