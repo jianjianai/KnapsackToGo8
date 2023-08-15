@@ -21,15 +21,14 @@ stages:
         certificate: ''
         image: gradle:8.2.1-jdk17-jammy
         command:
-          - chmod +x ./gradlew
-          - ./gradlew build
-          - ./gradlew shadow
+          - '## chmod +x ./gradlew'
+          - gradlew build
+          - gradlew shadow
         artifacts:
           - name: jars
             path:
-              - ./CommunicationTypes/build/libs
-              - ./KnapsackToGo8-ClientCore/build/libs
-              - ./KnapsackToGo8-Server/build/libs
+              - '*/build/libs/*'
         notify: []
         strategy:
           retry: '0'
+          timeout: 10
