@@ -4,9 +4,9 @@ displayName: 构建并发布
 triggers:
   trigger: auto
   push:
-    tags:
-      include:
-        - ^[0-9]+\.[0-9]+\.[0-9]+$
+    branches:
+      precise:
+        - master
 stages:
   - name: build
     displayName: 构建
