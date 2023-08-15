@@ -43,7 +43,7 @@ allprojects {
 
 
 task versionTxt(){
-    var buildFile = new File("build");
+    var buildFile = new File("./build");
     buildFile.mkdirs();
     var versionFile = new File(buildFile,"version.txt");
     versionFile.text = version;
@@ -59,5 +59,5 @@ task bulidAllJar(type: Copy) {
         }
     }.flatten()
     from jarFiles
-    into '/build/jars' // 目标文件目录
+    into './build/jars' // 目标文件目录
 }
