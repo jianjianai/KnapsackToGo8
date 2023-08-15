@@ -11,17 +11,29 @@ import com.alibaba.fastjson2.JSONObject;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static cn.jjaw.ktg8.client.core.Logger.logger;
 
 public abstract class IKTG8Client implements KTG8Client{
+    private ScheduledThreadPoolExecutor executor;
     private final IPluginManager pluginManager = new IPluginManager(this);
     private final IMessageListenerManager messageListenerManager = new IMessageListenerManager();
     private WebSocketClient webSocketClient;
+
     /**
      * 是否处于连接状态
      */
     private boolean isConnected = false;
+    /**
+     * 是否启动
+     */
+    private boolean isStart = false;
+    /**
+     * 是否关闭
+     */
+    private boolean isClose = false;
 
     private final URI serverUri;
     private final ServerType serverType;
@@ -119,10 +131,27 @@ public abstract class IKTG8Client implements KTG8Client{
         }catch (Throwable e){
             e.printStackTrace();
         }
+        if (isClose){
+            try {
+                onClose();
+            }catch (Throwable throwable){
+                throwable.printStackTrace();
+            }
+            return;
+        }
         logger.warn("服务器连接已断开，正在重新连接..");
-        webSocketClient = new WebSocketClient(serverUri);
-        try {Thread.sleep(1000);} catch (InterruptedException ignored) {}
-        webSocketClient.connect();
+        executor.schedule(()->{
+            if (isClose){
+                try {
+                    onClose();
+                }catch (Throwable throwable){
+                    throwable.printStackTrace();
+                }
+                return;
+            }
+            webSocketClient = new WebSocketClient(serverUri);
+            webSocketClient.connect();
+        },1, TimeUnit.SECONDS);
     }
 
     private void onError(Exception ex) {
@@ -179,12 +208,35 @@ public abstract class IKTG8Client implements KTG8Client{
      * 打开连接
      */
     public void connect(){
-        this.webSocketClient.connect();
+        if (isClose){
+            throw new Error("IKTG8Client不可用从用，如果已经关闭则需要创建新的对象");
+        }
+        if (isStart){
+            return;
+        }
+        isStart = true;
+        executor = new ScheduledThreadPoolExecutor(1);
+        webSocketClient.connect();
+    }
+
+    /**
+     * 关闭
+     */
+    public void close(){
+        if (!isStart){
+            throw new Error("在没有使用connect连接之前不需要使用close关闭。");
+        }
+        if (isClose){
+            return;
+        }
+        isClose = true;
+        executor.shutdown();
+        webSocketClient.close();
     }
 
 
     /**
-     * 当连接断开时，或连接失败时触发
+     * 当连接断开时，或连接失败时触发，此时不能发送消息
      */
     protected abstract void onConnectionDisconnected();
 
@@ -192,6 +244,11 @@ public abstract class IKTG8Client implements KTG8Client{
      * 当连接成功时，或者重新连接成功时触发，此诗句触发后才可发送消息
      */
     protected abstract void onSuccessfullyConnected();
+
+    /**
+     * 当关闭时，此时已经关闭
+     */
+    protected abstract void onClose();
 
 
 
