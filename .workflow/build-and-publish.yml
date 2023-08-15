@@ -1,0 +1,39 @@
+version: '1.0'
+name: build-and-publish
+displayName: 构建并发布
+triggers:
+  trigger: auto
+  push:
+    tags:
+      include:
+        - ^[0-9]+\.[0-9]+\.[0-9]+$
+stages:
+  - name: build
+    displayName: 构建
+    strategy: naturally
+    trigger: auto
+    executor:
+      - jja8
+    steps:
+      - step: build@gradle
+        name: build_gradle
+        displayName: Gradle 构建
+        jdkVersion: '17'
+        gradleVersion: '4.4'
+        commands:
+          - '# Gradle默认构建命令'
+          - chmod +x ./gradlew
+          - ./gradlew build
+          - ./gradlew shadow
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./CommunicationTypes/build/libs
+              - ./KnapsackToGo8-ClientCore/build/libs
+              - ./KnapsackToGo8-Server/build/libs
+        caches:
+          - ~/.gradle/caches
+        notify: []
+        strategy:
+          retry: '0'
+          timeout: 10
