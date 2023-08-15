@@ -22,8 +22,8 @@ stages:
         image: gradle:8.2.1-jdk17-jammy
         command:
           - '## chmod +x ./gradlew'
-          - gradlew build
-          - gradlew shadow
+          - gradle build
+          - gradle shadow
         artifacts:
           - name: jars
             path:
