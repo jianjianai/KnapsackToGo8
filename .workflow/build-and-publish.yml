@@ -32,3 +32,34 @@ stages:
         strategy:
           retry: '0'
           timeout: 10
+  - name: toup
+    displayName: 上传作品
+    strategy: naturally
+    trigger: auto
+    executor:
+      - jja8
+    steps:
+      - step: publish@general_artifacts
+        name: publish_general_artifacts
+        displayName: 上传制品
+        dependArtifact: jars
+        artifactName: output
+        notify: []
+        strategy:
+          retry: '0'
+  - name: stage-3e42018f
+    displayName: 发布
+    strategy: naturally
+    trigger: auto
+    executor:
+      - jja8
+    steps:
+      - step: publish@release_artifacts
+        name: publish_release_artifacts
+        displayName: 发布
+        dependArtifact: output
+        version: 1.0.0.0
+        autoIncrement: true
+        notify: []
+        strategy:
+          retry: '0'
