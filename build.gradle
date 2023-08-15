@@ -53,7 +53,7 @@ task bulidAllJar(type: Copy) {
     def jarFiles = subprojects.collect { subproject ->
         subproject.tasks.matching { task -> {
             println task
-            return task.name.endsWith('jar') || task.name.endsWith('shadowJar')
+            return task.name == 'jar' || task.name == 'shadowJar'
         } }.collect { task ->
             task.outputs.files
         }
