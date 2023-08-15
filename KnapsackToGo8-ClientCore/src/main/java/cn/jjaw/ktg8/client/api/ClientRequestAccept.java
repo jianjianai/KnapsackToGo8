@@ -8,13 +8,13 @@ import com.alibaba.fastjson2.JSONObject;
 /**
  * 一个请求接收器对象，一个简化通信的实现
  */
-public class RequestAccept{
+public class ClientRequestAccept {
     private final KTG8ClientPlugin ktg8Plugin;
     private final String listenerID;
     private final ClientMessageListenerManager listenerManager;
     private Worker worker;
 
-    public RequestAccept(ClientMessageListenerManager messageListenerManager,KTG8ClientPlugin ktg8Plugin,String listenerID) {
+    public ClientRequestAccept(ClientMessageListenerManager messageListenerManager, KTG8ClientPlugin ktg8Plugin, String listenerID) {
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;
@@ -80,7 +80,7 @@ public class RequestAccept{
      * 设置请求处理器
      * @param worker 建议使用lambda表达式或者方法引用
      */
-    public RequestAccept setWorker(Worker worker){
+    public ClientRequestAccept setWorker(Worker worker){
         if (worker==null){
             throw new NullPointerException("worker is null");
         }
@@ -90,7 +90,7 @@ public class RequestAccept{
     /**
      * 开始接收请求
      */
-    public RequestAccept start(){
+    public ClientRequestAccept start(){
         if (worker==null){
             throw new Error("在接收请求之前需要先使用setWorker方法设置请求处理器");
         }
@@ -100,7 +100,7 @@ public class RequestAccept{
     /**
      * 停止接收请求
      */
-    public RequestAccept stop(){
+    public ClientRequestAccept stop(){
         listenerManager.removeListener(ktg8Plugin,listenerID);
         return this;
     }

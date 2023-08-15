@@ -13,7 +13,7 @@ import static cn.jjaw.ktg8.client.core.Logger.logger;
 /**
  *  一个请求接发送器对象，一个简化通信的实现
  */
-public class RequestSend {
+public class ClientRequestSend {
     private final KTG8ClientPlugin ktg8Plugin;
     private final String listenerID;
     private final ClientMessageListenerManager listenerManager;
@@ -21,7 +21,7 @@ public class RequestSend {
     private final Map<Long,Accepts> acceptsMap = new ConcurrentHashMap<>();
     private long nextID = 0;
 
-    public RequestSend(ClientMessageListenerManager messageListenerManager,KTG8ClientPlugin ktg8Plugin,String listenerID) {
+    public ClientRequestSend(ClientMessageListenerManager messageListenerManager, KTG8ClientPlugin ktg8Plugin, String listenerID) {
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;
@@ -31,11 +31,11 @@ public class RequestSend {
         RSRequestSend requestSend = data.to(RSRequestSend.class);
         Accepts accepts = acceptsMap.remove(requestSend.id());
         if(accepts==null){
-            logger.warn("RequestSend 收到 "+ktg8Plugin.getName()+":"+listenerID+"消息 ID:"+requestSend.id()+" 不存在或已被处理:"+requestSend);
+            logger.warn("ClientRequestSend 收到 "+ktg8Plugin.getName()+":"+listenerID+"消息 ID:"+requestSend.id()+" 不存在或已被处理:"+requestSend);
             return;
         }
         if(requestSend.type()==null){
-            logger.warn("RequestSend 收到 "+ktg8Plugin.getName()+":"+listenerID+"消息 ID:"+requestSend.id()+" 不规范，type=null :"+requestSend);
+            logger.warn("ClientRequestSend 收到 "+ktg8Plugin.getName()+":"+listenerID+"消息 ID:"+requestSend.id()+" 不规范，type=null :"+requestSend);
             return;
         }
         try {
@@ -60,9 +60,9 @@ public class RequestSend {
      * @param onResponse 当成功响应，不关心可设置为null
      * @param onError 当对方发生错误，一般是对方Worker方法抛出异常时调用。如果不关心可设置为null
      */
-    public RequestSend sendRequest(JSONObject requestData,AcceptResponse onResponse,AcceptError onError){
+    public ClientRequestSend sendRequest(JSONObject requestData, AcceptResponse onResponse, AcceptError onError){
         if(!isStart){
-            throw new Error("RequestSend在启动之前不能发送消息，需要先使用start()方法启动后再发送消息。");
+            throw new Error("ClientRequestSend 在启动之前不能发送消息，需要先使用start()方法启动后再发送消息。");
         }
         nextID++;
         boolean acceptResponse = onResponse!=null;
@@ -79,7 +79,7 @@ public class RequestSend {
     /**
      * 开始发送
      */
-    public RequestSend start(){
+    public ClientRequestSend start(){
         listenerManager.regListener(ktg8Plugin,listenerID,this::onMessage);
         isStart = true;
         return this;
@@ -88,7 +88,7 @@ public class RequestSend {
     /**
      * 停止发送
      */
-    public RequestSend stop(){
+    public ClientRequestSend stop(){
         listenerManager.removeListener(ktg8Plugin,listenerID);
         isStart = false;
         return this;
