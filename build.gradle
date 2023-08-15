@@ -1,6 +1,16 @@
+buildscript{
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.github.johnrengelman:shadow:8.1.1'
+    }
+}
+
 allprojects {
     apply plugin: 'maven-publish'
     apply plugin: "java"
+    apply plugin: 'com.github.johnrengelman.shadow'
 
     group 'cn.jjaw.ktg8'
     version '8.0.2'
@@ -27,4 +37,27 @@ allprojects {
             }
         }
     }
+}
+
+
+
+
+task versionTxt(){
+    var buildFile = new File("build");
+    buildFile.mkdirs();
+    var versionFile = new File(buildFile,"version.txt");
+    versionFile.text = version;
+}
+
+task bulidAllJar(type: Copy) {
+    def jarFiles = subprojects.collect { subproject ->
+        subproject.tasks.matching { task -> {
+            println task
+            return task.name.endsWith('jar') || task.name.endsWith('shadowJar')
+        } }.collect { task ->
+            task.outputs.files
+        }
+    }.flatten()
+    from jarFiles
+    into '/build/jars' // 目标文件目录
 }
