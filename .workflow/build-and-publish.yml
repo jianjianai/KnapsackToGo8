@@ -15,25 +15,21 @@ stages:
     executor:
       - jja8
     steps:
-      - step: build@gradle
-        name: build_gradle
-        displayName: Gradle 构建
-        jdkVersion: '17'
-        gradleVersion: '4.4'
-        commands:
-          - '# Gradle默认构建命令'
+      - step: execute@docker
+        name: gradle-build
+        displayName: gradle构建
+        certificate: ''
+        image: gradle:8.2.1-jdk17-jammy
+        command:
           - chmod +x ./gradlew
           - ./gradlew build
           - ./gradlew shadow
         artifacts:
-          - name: BUILD_ARTIFACT
+          - name: jars
             path:
               - ./CommunicationTypes/build/libs
               - ./KnapsackToGo8-ClientCore/build/libs
               - ./KnapsackToGo8-Server/build/libs
-        caches:
-          - ~/.gradle/caches
         notify: []
         strategy:
           retry: '0'
-          timeout: 10
