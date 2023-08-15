@@ -8,10 +8,12 @@ import cn.jjaw.ktg8.server.core.IKTG8Server;
 import cn.jjaw.ktg8.server.core.IPluginManager;
 
 import java.io.File;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import static cn.jjaw.ktg8.server.core.Logger.logger;
 
 public class Main {
+    private static final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     private static IKTG8Server ktg8Server;
     private static IPluginManager PluginManager;
 
@@ -57,4 +59,9 @@ public class Main {
     public static IPluginManager getPluginManager() {
         return PluginManager;
     }
+
+    public static ScheduledThreadPoolExecutor getExecutor(){
+        return executor;
+    }
+
 }
