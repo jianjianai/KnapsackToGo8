@@ -2,6 +2,7 @@ package cn.jjaw.ktg8.client.api;
 
 import cn.jjaw.ktg8.type.core.RADataRequestAccept;
 import cn.jjaw.ktg8.type.core.RSRequestError;
+import cn.jjaw.ktg8.type.core.RSRequestError.ErrorType;
 import cn.jjaw.ktg8.type.core.RSRequestSend;
 import com.alibaba.fastjson2.JSONObject;
 
@@ -60,7 +61,7 @@ public class ClientRequestSend {
     }
 
     /**
-     * 发送请求
+     * 发送请求,此方法不会柱塞线程
      * @param requestData 请求数据
      * @param onResponse 当成功响应，不关心可设置为null
      * @param onError 当对方发生错误，一般是对方Worker方法抛出异常时调用。如果不关心可设置为null
@@ -69,28 +70,47 @@ public class ClientRequestSend {
         if(!isStart){
             throw new Error("ClientRequestSend 在启动之前不能发送消息，需要先使用start()方法启动后再发送消息。");
         }
-        nextID++;
+        final long theID;
+        synchronized (this){
+            nextID++;
+            theID = nextID;
+        }
         boolean acceptResponse = onResponse!=null;
         boolean acceptError = onError!=null;
         if (acceptResponse || acceptError){
-            final long id = nextID;
-            acceptsMap.put(id,new Accepts(onResponse,onError));
+            acceptsMap.put(theID,new Accepts(onResponse,onError));
             //设置超时处理
             executor.schedule(()->{
-                Accepts accepts = acceptsMap.remove(id);
+                Accepts accepts = acceptsMap.remove(theID);
                 if (accepts==null || accepts.acceptError()==null){
                     return;
                 }
                 try {
-                    accepts.acceptError().accept("timeOut","请求超时,"+timeOut+"秒没有收到回复，对方正常处理了请求吗？");
+                    accepts.acceptError().accept(ErrorType.timeOut,"请求超时,"+timeOut+"秒没有收到回复，对方正常处理了请求吗？");
                 }catch (Throwable throwable){
                     throwable.printStackTrace();
                 }
             },timeOut, TimeUnit.SECONDS);
         }
-        ktg8Plugin.sendMessage(listenerID, JSONObject.from(
-                new RADataRequestAccept(nextID,acceptResponse,acceptError,requestData))
-        );
+        executor.execute(()->{
+            try {
+                ktg8Plugin.sendMessage(listenerID, JSONObject.from(
+                        new RADataRequestAccept(nextID,acceptResponse,acceptError,requestData))
+                );
+            }catch (Throwable throwable){
+                throwable.printStackTrace();
+                Accepts accepts = acceptsMap.remove(theID);
+                if (accepts==null || accepts.acceptError()==null){
+                    return;
+                }
+                try {
+                    accepts.acceptError().accept(ErrorType.sendError,throwable.toString());
+                }catch (Throwable throwable1){
+                    throwable1.printStackTrace();
+                }
+
+            }
+        });
         return this;
     }
 
@@ -138,6 +158,6 @@ public class ClientRequestSend {
          * @param code 错误代码
          * @param reason 原因
          */
-        void accept(String code,String reason);
+        void accept(ErrorType code, String reason);
     }
 }

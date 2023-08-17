@@ -1,7 +1,6 @@
 package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.type.core.BaseMessage;
-import cn.jjaw.ktg8.type.core.BaseMessageType;
 import cn.jjaw.ktg8.type.core.DataMessage;
 import cn.jjaw.ktg8.type.core.HandshakeMessageClient;
 import cn.jjaw.ktg8.type.core.HandshakeMessageServer;
@@ -84,7 +83,7 @@ class IClientManager implements ClientManager {
         //发送握手成功信息
         webSocket.send(JSON.toJSONString(
                 new BaseMessage(
-                        BaseMessageType.handshake,
+                        BaseMessage.BaseMessageType.handshake,
                         JSONObject.from(handshakeMessageClient)
                 ))
         );

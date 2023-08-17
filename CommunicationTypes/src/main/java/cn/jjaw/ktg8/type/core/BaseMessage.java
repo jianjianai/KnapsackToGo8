@@ -8,4 +8,18 @@ import com.alibaba.fastjson2.JSONObject;
 public record BaseMessage(
         BaseMessageType type,
         JSONObject data
-) {}
+) {
+    /**
+     * 消息类型
+     */
+    public enum BaseMessageType {
+        /**
+         * 握握手
+         */
+        handshake,
+        /**
+         * 数据
+         */
+        data
+    }
+}

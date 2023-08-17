@@ -39,7 +39,7 @@ public class ClientRequestAccept {
                         requestAccept.id(),
                         RSRequestSend.RSRequestSendType.error,
                         JSONObject.from(new RSRequestError(
-                                "throwable",
+                                RSRequestError.ErrorType.acceptThrowable,
                                 error.toString()
                         ))
                 )));

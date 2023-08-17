@@ -49,7 +49,7 @@ public abstract class IKTG8Client implements KTG8Client{
     private void onOpen(ServerHandshake handshakedata) {
         //发送握手包
         webSocketClient.send(JSON.toJSONString(new BaseMessage(
-                BaseMessageType.handshake,
+                BaseMessage.BaseMessageType.handshake,
                 JSONObject.from(new HandshakeMessageServer(
                         0,
                         serverID,
@@ -170,7 +170,7 @@ public abstract class IKTG8Client implements KTG8Client{
         }
         //发送数据消息
         webSocketClient.send(JSON.toJSONString(new BaseMessage(
-                BaseMessageType.data,
+                BaseMessage.BaseMessageType.data,
                 JSONObject.from(new DataMessage(
                         pluginName,
                         iId,

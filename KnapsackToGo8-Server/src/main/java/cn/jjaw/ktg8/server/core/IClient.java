@@ -1,7 +1,6 @@
 package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.type.core.BaseMessage;
-import cn.jjaw.ktg8.type.core.BaseMessageType;
 import cn.jjaw.ktg8.type.core.DataMessage;
 import cn.jjaw.ktg8.type.core.ServerType;
 import cn.jjaw.ktg8.server.api.Client;
@@ -51,7 +50,7 @@ class IClient implements Client {
         }
         //发送数据消息
         webSocket.send(JSON.toJSONString(new BaseMessage(
-                BaseMessageType.data,
+                BaseMessage.BaseMessageType.data,
                 JSONObject.from(new DataMessage(
                         pluginName,
                         iId,
