@@ -13,7 +13,7 @@ allprojects {
     apply plugin: 'com.github.johnrengelman.shadow'
 
     group 'cn.jjaw.ktg8'
-    version '8.0.2'
+    version '8.0.2-dev'
 
     repositories {
         maven {
