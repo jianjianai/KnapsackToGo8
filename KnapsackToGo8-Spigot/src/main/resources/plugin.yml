@@ -1,0 +1,4 @@
+name: KnapsackToGo8
+version: '${version}'
+main: cn.jjaw.ktg8.spigot.KTG8
+api-version: '1.20'
