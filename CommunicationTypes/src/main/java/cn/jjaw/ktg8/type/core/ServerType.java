@@ -4,7 +4,7 @@ public enum ServerType {
     /**
      * 插件端
      */
-    Bukkit,
+    Spigot,
     /**
      * 代理端
      */
