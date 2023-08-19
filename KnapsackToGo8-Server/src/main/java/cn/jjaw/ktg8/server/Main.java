@@ -40,6 +40,11 @@ public class Main {
         ktg8Server = new IKTG8Server();
         logger.info("正在加载插件管理器 ..");
         PluginManager = new IPluginManager();
+        logger.info("正在加载配置文件 builtinPlugins.yaml ..");
+        new YamlConfig()
+                .load(new File("builtinPlugins.yaml"))
+                .as(Builtin.class)
+                .save(new File("builtinPlugins.yaml"));
         logger.info("正在加载插件包 ..");
         Builtin.initializationAll();
         PluginManager.initialization();

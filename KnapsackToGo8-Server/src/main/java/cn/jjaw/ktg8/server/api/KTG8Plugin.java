@@ -12,6 +12,7 @@ public abstract class KTG8Plugin {
     private final IPluginManager pluginManager;
     private final String name;
     private final String[] depends;
+    private final File dataFolder;
 
     public KTG8Plugin(String name) {
         this(name,null);
@@ -28,6 +29,7 @@ public abstract class KTG8Plugin {
         this.depends = depends;
         pluginManager.addPlugin(this);
         logger = LoggerFactory.getLogger(name);
+        dataFolder = new File(new File("plugins"),name);
     }
 
     /**
@@ -47,8 +49,8 @@ public abstract class KTG8Plugin {
     /**
      * 获取数据文件夹
      */
-    public File dataFolder(){
-        return new File(new File("plugins"),name);
+    public File getDataFolder(){
+        return dataFolder;
     }
 
 
