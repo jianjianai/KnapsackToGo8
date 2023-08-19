@@ -27,10 +27,11 @@ public class WebAdmin extends KTG8Plugin {
 
     @Override
     public void onLoad() {
-        getLogger().info("正在初始化..");
+        getLogger().info("正在加载配置文件 WebServerConfig.yaml ..");
         getDataFolder().mkdirs();
         File webServerConfig = new File(getDataFolder(),"WebServerConfig.yaml");
         new YamlConfig().load(webServerConfig).as(WebServerConfig.class).save(webServerConfig);
+        getLogger().info("正在初始化..");
         try {
             httpServer = HttpServer.create(new InetSocketAddress(WebServerConfig.hostname,WebServerConfig.port),0);
             httpServer.setExecutor(KTG8.getExecutor());
