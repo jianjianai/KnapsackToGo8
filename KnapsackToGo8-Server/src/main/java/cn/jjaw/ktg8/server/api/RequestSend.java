@@ -26,7 +26,19 @@ public class RequestSend {
     private long nextID = 0;
     private long timeOut = 30;//超时时间，30秒
 
+    public RequestSend(KTG8Plugin ktg8Plugin, String listenerID) {
+        this(KTG8.getKTG8Server().getMessageListenerManager(), ktg8Plugin,listenerID);
+    }
     public RequestSend(MessageListenerManager messageListenerManager,KTG8Plugin ktg8Plugin,String listenerID) {
+        if (messageListenerManager==null){
+            throw new NullPointerException("messageListenerManager is null");
+        }
+        if (ktg8Plugin==null){
+            throw new NullPointerException("ktg8Plugin is null");
+        }
+        if (listenerID==null){
+            throw new NullPointerException("listenerID is null");
+        }
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;

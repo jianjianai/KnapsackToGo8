@@ -25,8 +25,19 @@ public class ClientRequestSend {
     private final Map<Long,Accepts> acceptsMap = new ConcurrentHashMap<>();
     private long nextID = 0;
     private long timeOut = 30;//超时时间，30秒
-
+    public ClientRequestSend(KTG8Client ktg8Client, KTG8ClientPlugin ktg8Plugin, String listenerID) {
+        this(ktg8Client.getMessageListenerManager(),ktg8Plugin,listenerID);
+    }
     public ClientRequestSend(ClientMessageListenerManager messageListenerManager, KTG8ClientPlugin ktg8Plugin, String listenerID) {
+        if (messageListenerManager==null){
+            throw new NullPointerException("messageListenerManager is null");
+        }
+        if (ktg8Plugin==null){
+            throw new NullPointerException("ktg8Plugin is null");
+        }
+        if (listenerID==null){
+            throw new NullPointerException("listenerID is null");
+        }
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;

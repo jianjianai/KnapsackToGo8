@@ -14,7 +14,19 @@ public class ClientRequestAccept {
     private final ClientMessageListenerManager listenerManager;
     private Worker worker;
 
+    public ClientRequestAccept(KTG8Client ktg8Client, KTG8ClientPlugin ktg8Plugin, String listenerID) {
+        this(ktg8Client.getMessageListenerManager(),ktg8Plugin,listenerID);
+    }
     public ClientRequestAccept(ClientMessageListenerManager messageListenerManager, KTG8ClientPlugin ktg8Plugin, String listenerID) {
+        if (messageListenerManager==null){
+            throw new NullPointerException("messageListenerManager is null");
+        }
+        if (ktg8Plugin==null){
+            throw new NullPointerException("ktg8Plugin is null");
+        }
+        if (listenerID==null){
+            throw new NullPointerException("listenerID is null");
+        }
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;

@@ -14,11 +14,23 @@ public class RequestAccept{
     private final MessageListenerManager listenerManager;
     private Worker worker;
 
-    public RequestAccept(MessageListenerManager messageListenerManager,KTG8Plugin ktg8Plugin,String listenerID) {
+    public RequestAccept(KTG8Plugin ktg8Plugin, String listenerID) {
+        this(KTG8.getKTG8Server().getMessageListenerManager(), ktg8Plugin,listenerID);
+    }
+
+    public RequestAccept(MessageListenerManager messageListenerManager, KTG8Plugin ktg8Plugin, String listenerID) {
+        if (messageListenerManager==null){
+            throw new NullPointerException("messageListenerManager is null");
+        }
+        if (ktg8Plugin==null){
+            throw new NullPointerException("ktg8Plugin is null");
+        }
+        if (listenerID==null){
+            throw new NullPointerException("listenerID is null");
+        }
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;
-
     }
 
     private void onMessage(Client client, JSONObject data, MessageListenWorker messageListenWorker) {
