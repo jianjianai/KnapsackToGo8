@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 buildscript{
     repositories {
         gradlePluginPortal()
@@ -13,7 +15,7 @@ allprojects {
     apply plugin: 'com.github.johnrengelman.shadow'
 
     group 'cn.jjaw.ktg8'
-    version '8.0.5-dev'
+    version '8.0.8'
 
     repositories {
         maven {
@@ -36,23 +38,26 @@ allprojects {
                 artifact sourcesJar
             }
         }
+        repositories {
+            maven {
+                name = 'GitHubPackages'
+                url = uri("https://maven.pkg.github.com/jianjianai/knapsacktogo8")
+                credentials {
+                    username = project.findProperty("github.user.name") ?: System.getenv("GITHUB_ACTOR")
+                    password = project.findProperty("github.user.token") ?: System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
     }
 }
 
-
-
-
-task versionTxt(){
-    var buildFile = new File("./build");
-    buildFile.mkdirs();
-    var versionFile = new File(buildFile,"version.txt");
-    versionFile.text = version;
-}
-
+//构建开发版
 task bulidAllJar(type: Copy) {
+    dependsOn(clean)
+
+    def devVersion = new SimpleDateFormat("yy.M.d.HHmmss").format(new Date())+"-dev";
     def jarFiles = subprojects.collect { subproject ->
         subproject.tasks.matching { task -> {
-            println task
             return task.name == 'jar' || task.name == 'shadowJar'
         } }.collect { task ->
             task.outputs.files
@@ -60,4 +65,46 @@ task bulidAllJar(type: Copy) {
     }.flatten()
     from jarFiles
     into './build/jars' // 目标文件目录
+    eachFile { details ->
+        details.path = details.path.replace(version,devVersion)
+    }
+
+    doLast{
+        //创建版本文件
+        var buildFile = new File("./build");
+        buildFile.mkdirs();
+        var versionFile = new File(buildFile,"version.txt");
+        versionFile.text = devVersion;
+    }
+}
+
+
+//构建正式发行版
+task bulidOfficialReleases(type: Copy){
+    dependsOn(clean)
+
+    def buildList = Arrays.asList(
+            "ktg8-server",
+            "ktg8-spigot"
+    );
+    def jarFiles = subprojects.collect { subproject ->
+        println subproject.name;
+        if (buildList.contains(subproject.name)){
+            subproject.tasks.matching { task -> {
+                return task.name == 'jar' || task.name == 'shadowJar'
+            } }.collect { task ->
+                task.outputs.files
+            }
+        }
+    }.flatten()
+    from jarFiles
+    into './build/jars' // 目标文件目录
+
+    doLast{
+        //创建版本文件
+        var buildFile = new File("./build");
+        buildFile.mkdirs();
+        var versionFile = new File(buildFile,"version.txt");
+        versionFile.text = version;
+    }
 }

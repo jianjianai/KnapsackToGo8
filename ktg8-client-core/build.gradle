@@ -8,7 +8,7 @@ dependencies {
     //WebSocket
     implementation 'org.java-websocket:Java-WebSocket:1.5.4'
     //base
-    implementation project(":CommunicationTypes")
+    implementation project(":core-types")
 }
 
 test {

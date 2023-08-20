@@ -19,7 +19,7 @@ dependencies {
     //fastjson2
     implementation 'com.alibaba.fastjson2:fastjson2:2.0.38'
     //base
-    implementation project(":CommunicationTypes")
+    implementation project(":core-types")
 
 
     // 数据库框架

@@ -1,8 +1,8 @@
-rootProject.name = 'KnapsackToGo8'
-include 'KnapsackToGo8-Server'
-include 'CommunicationTypes'
-include 'KnapsackToGo8-ClientCore'
-include 'KnapsackToGo8-Spigot'
+rootProject.name = 'knapsacktogo8'
+include 'core-types'
+include 'ktg8-client-core'
+include 'ktg8-server'
+include 'ktg8-spigot'
 
 
 
