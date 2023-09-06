@@ -182,5 +182,10 @@ public class IPluginManager implements PluginManager {
         void run(KTG8Plugin ktg8Plugin);
     }
 
+    @Override
+    public KTG8Plugin getKTG8Plugin(String name) {
+        return pluginMap.get(name);
+    }
+
 
 }
