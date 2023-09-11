@@ -6,17 +6,33 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.Set;
 
 public class SqliteStorage implements PairStorage {
-    private final SqliteStorageManager manager;
-    private final String name;
 
-    SqliteStorage(SqliteStorageManager manager, String name) {
-        this.manager = manager;
-        this.name = name;
+    static SqliteStorage create(SqliteStorageManager manager, String name){
         try (SqlSession session = manager.getSql().openSession()){
             SqlExecute execute = session.getMapper(SqlExecute.class);
             execute.createTable(name);
             session.commit();
         }
+        return new SqliteStorage(manager,name);
+    }
+
+    static SqliteStorage get(SqliteStorageManager manager, String name){
+        try (SqlSession session = manager.getSql().openSession()){
+            SqlExecute execute = session.getMapper(SqlExecute.class);
+            String theName = execute.isTableExist(name);
+            if(theName==null){
+                return null;
+            }
+        }
+        return new SqliteStorage(manager,name);
+    }
+
+    private final SqliteStorageManager manager;
+    private final String name;
+
+    private SqliteStorage(SqliteStorageManager manager, String name) {
+        this.manager = manager;
+        this.name = name;
     }
 
     @Override

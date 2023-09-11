@@ -11,6 +11,10 @@ public interface SqlExecute {
     @Update("create table if not exists '${name}'(k varchar(255) primary key,v text)")
     void createTable(@Param("name") String name);
 
+    // TODO 不确定是否是正确的sql语句
+    @Select("select name from sqlite_master where type='table' name=#{table}")
+    String isTableExist(@Param("table")String table);
+
     @Select("select name from sqlite_master where type='table'")
     List<String> getTableList();
 

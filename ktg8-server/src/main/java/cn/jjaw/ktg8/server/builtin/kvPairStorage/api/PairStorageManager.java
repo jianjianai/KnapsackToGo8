@@ -1,6 +1,6 @@
 package cn.jjaw.ktg8.server.builtin.kvPairStorage.api;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface PairStorageManager {
     /**
@@ -9,14 +9,21 @@ public interface PairStorageManager {
      */
     PairStorage createPairStorage(String name);
 
+    /*
+     * 获取一个已经存在的键值对库
+     * @param name 建议使用 插件名称_库存名称命名
+     */
+    PairStorage getPairStorage(String name);
+
     /**
      * 删除一个键值对库，包括全部数据
      */
     void deletePairStorage(String name);
 
     /**
-     * 获取键值对库列表
+     * 获取全部的库名称
+     * @return 库名称集合
      */
-    List<String> getPairStorageList();
+    Collection<String> pairStorages();
 
 }

@@ -10,7 +10,7 @@ public class sqllite测试 {
         KvPairStorage kvPairStorage = KvPairStorage.getKvPairStorage();
         SqliteStorageManager manager = (SqliteStorageManager) kvPairStorage.getPairStorageManager();
         PairStorage qwe = manager.createPairStorage("qwe");
-        System.out.println(manager.getPairStorageList());
+        System.out.println(manager.pairStorages());
 
         qwe.put("qwe","asd");
         qwe.put("qweq","asd");

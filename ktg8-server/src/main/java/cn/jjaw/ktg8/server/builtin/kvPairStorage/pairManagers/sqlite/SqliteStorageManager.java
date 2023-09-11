@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.sqlite.SQLiteDataSource;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SqliteStorageManager implements PairStorageManager {
@@ -42,14 +42,12 @@ public class SqliteStorageManager implements PairStorageManager {
 
     @Override
     public PairStorage createPairStorage(String name) {
-        synchronized (storageMap){
-            SqliteStorage storage = storageMap.get(name);
-            if (storage==null){
-                storage = new SqliteStorage(this,name);
-                storageMap.put(name,storage);
-            }
-            return  storage;
-        }
+        return storageMap.computeIfAbsent(name,key->SqliteStorage.create(this, name));
+    }
+
+    @Override
+    public PairStorage getPairStorage(String name) {
+        return storageMap.computeIfAbsent(name,key->SqliteStorage.get(this, name));
     }
 
     @Override
@@ -57,11 +55,14 @@ public class SqliteStorageManager implements PairStorageManager {
         throw new Error("sqlite目前还没实现删除功能");
     }
 
+
     @Override
-    public List<String> getPairStorageList() {
+    public Collection<String> pairStorages() {
         try (SqlSession session = sql.openSession()){
             SqlExecute execute = session.getMapper(SqlExecute.class);
             return execute.getTableList();
         }
     }
+
+
 }
