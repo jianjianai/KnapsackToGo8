@@ -42,12 +42,17 @@ public class SqliteStorageManager implements PairStorageManager {
 
     @Override
     public PairStorage createPairStorage(String name) {
-        return storageMap.computeIfAbsent(name,key->SqliteStorage.create(this, name));
+        synchronized(storageMap){
+            return storageMap.computeIfAbsent(name,key->SqliteStorage.create(this, name));
+        }
+       
     }
 
     @Override
     public PairStorage getPairStorage(String name) {
-        return storageMap.computeIfAbsent(name,key->SqliteStorage.get(this, name));
+        synchronized(storageMap){
+            return storageMap.computeIfAbsent(name,key->SqliteStorage.get(this, name));
+        }
     }
 
     @Override
