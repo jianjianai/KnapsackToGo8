@@ -42,6 +42,9 @@ public class SqliteStorageManager implements PairStorageManager {
 
     @Override
     public PairStorage createPairStorage(String name) {
+        if(name==null){
+            throw new NullPointerException("name is null");
+        }
         synchronized(storageMap){
             return storageMap.computeIfAbsent(name,key->SqliteStorage.create(this, name));
         }
@@ -50,6 +53,9 @@ public class SqliteStorageManager implements PairStorageManager {
 
     @Override
     public PairStorage getPairStorage(String name) {
+        if(name==null){
+            throw new NullPointerException("name is null");
+        }
         synchronized(storageMap){
             return storageMap.computeIfAbsent(name,key->SqliteStorage.get(this, name));
         }
@@ -57,6 +63,9 @@ public class SqliteStorageManager implements PairStorageManager {
 
     @Override
     public void deletePairStorage(String name) {
+        if(name==null){
+            throw new NullPointerException("name is null");
+        }
         throw new Error("sqlite目前还没实现删除功能");
     }
 
