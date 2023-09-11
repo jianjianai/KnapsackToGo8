@@ -30,7 +30,7 @@ public class kvPairStorageAccept{
 
 
 	private JSONObject pairStorages(Client client,JSONObject requestData){
-		// TODO 没有测试
+		// TODO 没有测试 JSONObject.from(list);
 		ArrayList list = new ArrayList<>(pairStorageManager.pairStorages());
 		return JSONObject.from(list);
 	}
