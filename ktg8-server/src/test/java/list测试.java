@@ -8,7 +8,8 @@ class list测试{
         ArrayList<String> list = new ArrayList<>();
         list.add("qweasd");
         list.add("qweasdasd");
-        JSONObject json = JSONObject.from(list);
+        JSONObject json = new JSONObject();
+        json.put("data",list);
 
         System.out.println(JSON.toJSONString(json));
     }

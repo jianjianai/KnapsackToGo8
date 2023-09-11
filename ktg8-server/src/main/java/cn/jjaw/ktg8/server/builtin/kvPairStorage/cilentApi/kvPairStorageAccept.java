@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 
 import cn.jjaw.ktg8.server.api.Client;
@@ -30,9 +29,10 @@ public class kvPairStorageAccept{
 
 
 	private JSONObject pairStorages(Client client,JSONObject requestData){
-		// TODO 没有测试 JSONObject.from(list);
-		ArrayList list = new ArrayList<>(pairStorageManager.pairStorages());
-		return JSONObject.from(list);
+		ArrayList<String> list = new ArrayList<>(pairStorageManager.pairStorages());
+		JSONObject json = new JSONObject();
+		json.put("data",list);
+		return json;
 	}
 
 	private JSONObject getPairStorage(Client client,JSONObject requestData){
