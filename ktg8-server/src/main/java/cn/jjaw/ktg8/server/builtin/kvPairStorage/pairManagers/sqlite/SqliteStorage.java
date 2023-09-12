@@ -1,6 +1,6 @@
 package cn.jjaw.ktg8.server.builtin.kvPairStorage.pairManagers.sqlite;
 
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorage;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorage;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.Set;

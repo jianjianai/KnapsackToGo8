@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import cn.jjaw.ktg8.type.builtin.kvPairStorage.cilentApi.GetPairStorageC;
+import cn.jjaw.ktg8.type.builtin.kvPairStorage.cilentApi.GetPairStorageS;
+import cn.jjaw.ktg8.type.builtin.kvPairStorage.cilentApi.PairStoragesC;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 
 import cn.jjaw.ktg8.server.core.Client;
 import cn.jjaw.ktg8.server.core.RequestAccept;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorage;
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorage;
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorageManager;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorage;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorageManager;
 
 public class kvPairStorageAccept{
 	private final PairStorageManager pairStorageManager;
@@ -28,23 +32,22 @@ public class kvPairStorageAccept{
 	}
 
 
+	/**
+	 * 获取其库存列表
+	 */
 	private JSONObject pairStorages(Client client,JSONObject requestData){
 		ArrayList<String> list = new ArrayList<>(pairStorageManager.pairStorages());
-		JSONObject json = new JSONObject();
-		json.put("data",list);
-		return json;
+		return JSONObject.from(new PairStoragesC(list));
 	}
 
+	/**
+	 * 加载指定库存
+	 */
 	private JSONObject getPairStorage(Client client,JSONObject requestData){
-		String storageName = requestData.getString("storageName");
-		PairStorage pairStorage = storageKeyMap.computeIfAbsent(storageName, key->pairStorageManager.getPairStorage(key));
-		boolean ok = false;
-		if(pairStorage!=null){
-			ok = true;
-		}
-		JSONObject json = new JSONObject();
-		json.put("ok",ok);
-		return json;
+		GetPairStorageS request = requestData.to(GetPairStorageS.class);
+		PairStorage pairStorage = storageKeyMap.computeIfAbsent(request.storageName(), pairStorageManager::getPairStorage);
+		boolean ok = pairStorage!=null;
+		return JSONObject.from(new GetPairStorageC(ok));
 	}
     
     

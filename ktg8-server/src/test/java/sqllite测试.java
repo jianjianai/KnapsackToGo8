@@ -1,6 +1,6 @@
 import cn.jjaw.ktg8.server.Main;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorage;
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorage;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorage;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.pairManagers.sqlite.SqliteStorageManager;
 
 public class sqllite测试 {

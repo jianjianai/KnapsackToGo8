@@ -1,8 +1,8 @@
 package cn.jjaw.ktg8.server.builtin.kvPairStorage.pairManagers.sqlite;
 
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorage;
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorage;
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorageManager;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorage;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorageManager;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
@@ -19,6 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SqliteStorageManager implements PairStorageManager {
+    static class NameIllegal extends Error{
+        public NameIllegal(String message) {
+            super(message);
+        }
+    }
     private final Logger logger;
     private final SqlSessionFactory sql;
     private final Map<String,SqliteStorage> storageMap = new HashMap<>();
@@ -40,11 +45,21 @@ public class SqliteStorageManager implements PairStorageManager {
         return sql;
     }
 
-    @Override
-    public PairStorage createPairStorage(String name) {
+    /**
+     * 检查名称是否合法，不合法则抛出异常
+     */
+    private void nameCheck(String name){
         if(name==null){
             throw new NullPointerException("name is null");
         }
+        if(!name.matches("^[A-Za-z_]+$")){
+            throw new NameIllegal("名称只能包含大小写字母和下划线");
+        }
+    }
+
+    @Override
+    public PairStorage createPairStorage(String name) {
+        nameCheck(name);
         synchronized(storageMap){
             return storageMap.computeIfAbsent(name,key->SqliteStorage.create(this, name));
         }
@@ -53,9 +68,7 @@ public class SqliteStorageManager implements PairStorageManager {
 
     @Override
     public PairStorage getPairStorage(String name) {
-        if(name==null){
-            throw new NullPointerException("name is null");
-        }
+        nameCheck(name);
         synchronized(storageMap){
             return storageMap.computeIfAbsent(name,key->SqliteStorage.get(this, name));
         }
@@ -63,9 +76,7 @@ public class SqliteStorageManager implements PairStorageManager {
 
     @Override
     public void deletePairStorage(String name) {
-        if(name==null){
-            throw new NullPointerException("name is null");
-        }
+        nameCheck(name);
         throw new Error("sqlite目前还没实现删除功能");
     }
 

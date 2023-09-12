@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.server.builtin.kvPairStorage.api;
+package cn.jjaw.ktg8.server.builtin.kvPairStorage;
 
 import java.util.Collection;
 

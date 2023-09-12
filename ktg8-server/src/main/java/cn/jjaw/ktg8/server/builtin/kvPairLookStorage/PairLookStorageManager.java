@@ -2,7 +2,7 @@ package cn.jjaw.ktg8.server.builtin.kvPairLookStorage;
 
 import java.util.HashMap;
 
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorageManager;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorageManager;
 
 public class PairLookStorageManager {
 
