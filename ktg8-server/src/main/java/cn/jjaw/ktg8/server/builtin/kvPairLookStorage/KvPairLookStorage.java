@@ -1,7 +1,7 @@
 package cn.jjaw.ktg8.server.builtin.kvPairLookStorage;
 
-import cn.jjaw.ktg8.server.api.KTG8;
-import cn.jjaw.ktg8.server.api.KTG8Plugin;
+import cn.jjaw.ktg8.server.core.KTG8;
+import cn.jjaw.ktg8.server.core.KTG8Plugin;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorage;
 
 public class KvPairLookStorage extends KTG8Plugin{

@@ -1,11 +1,11 @@
-package cn.jjaw.ktg8.client.api;
+package cn.jjaw.ktg8.server.core;
 
-public interface ClientMessageListenWorker {
+public interface MessageListenWorker {
 
     /**
      * 获取此监听器的插件
      */
-    KTG8ClientPlugin getPlugin();
+    KTG8Plugin getPlugin();
 
     /**
      * 获取此监听器的id
@@ -15,5 +15,5 @@ public interface ClientMessageListenWorker {
     /**
      * 获取监听器的执行器
      */
-    ClientMessageListener getListener();
+    MessageListener getListener();
 }

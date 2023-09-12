@@ -1,16 +1,10 @@
-package cn.jjaw.ktg8.client.api;
+package cn.jjaw.ktg8.client.core;
 
-import cn.jjaw.ktg8.type.core.ServerType;
 import com.alibaba.fastjson2.JSONObject;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public interface KTG8Client {
-
-    /**
-     * 获取服务器类型
-     */
-    ServerType getServerType();
 
     /**
      * 获取服务器ID

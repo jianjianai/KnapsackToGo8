@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.client.api;
+package cn.jjaw.ktg8.client.core;
 
 public interface ClientPluginManager {
     /**

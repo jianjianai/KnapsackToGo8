@@ -1,9 +1,5 @@
 package cn.jjaw.ktg8.client.core;
 
-import cn.jjaw.ktg8.client.api.ClientMessageListenerManager;
-import cn.jjaw.ktg8.client.api.ClientPluginManager;
-import cn.jjaw.ktg8.client.api.KTG8Client;
-import cn.jjaw.ktg8.client.api.KTG8ClientPlugin;
 import cn.jjaw.ktg8.type.core.*;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
@@ -36,12 +32,10 @@ public abstract class IKTG8Client implements KTG8Client{
     private boolean isClose = false;
 
     private final URI serverUri;
-    private final ServerType serverType;
     private final String serverID;
 
-    public IKTG8Client(URI serverUri, ServerType serverType, String serverID) {
+    public IKTG8Client(URI serverUri, String serverID) {
         this.serverUri = serverUri;
-        this.serverType = serverType;
         this.serverID = serverID;
         this.webSocketClient = new WebSocketClient(serverUri);
     }
@@ -52,8 +46,7 @@ public abstract class IKTG8Client implements KTG8Client{
                 BaseMessage.BaseMessageType.handshake,
                 JSONObject.from(new HandshakeMessageServer(
                         0,
-                        serverID,
-                        serverType
+                        serverID
                 )))
         ));
     }
@@ -194,11 +187,6 @@ public abstract class IKTG8Client implements KTG8Client{
         return pluginManager;
     }
 
-
-    @Override
-    public ServerType getServerType() {
-        return serverType;
-    }
     @Override
     public String getServerID() {
         return serverID;

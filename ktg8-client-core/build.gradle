@@ -9,6 +9,7 @@ dependencies {
     implementation 'org.java-websocket:Java-WebSocket:1.5.4'
     //base
     implementation project(":core-types")
+    implementation project(":ktg8-client-core-api")
 }
 
 test {

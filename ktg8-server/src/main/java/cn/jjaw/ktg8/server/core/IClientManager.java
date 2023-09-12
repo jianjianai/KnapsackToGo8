@@ -4,8 +4,6 @@ import cn.jjaw.ktg8.type.core.BaseMessage;
 import cn.jjaw.ktg8.type.core.DataMessage;
 import cn.jjaw.ktg8.type.core.HandshakeMessageClient;
 import cn.jjaw.ktg8.type.core.HandshakeMessageServer;
-import cn.jjaw.ktg8.server.api.Client;
-import cn.jjaw.ktg8.server.api.ClientManager;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import org.java_websocket.WebSocket;
@@ -75,8 +73,7 @@ class IClientManager implements ClientManager {
             }
             addIClient(client = new IClient(
                     this,webSocket,
-                    handshakeMessageServer.serverID(),
-                    handshakeMessageServer.serverType()
+                    handshakeMessageServer.serverID()
             ));
             handshakeMessageClient = new HandshakeMessageClient(true,null);
         }

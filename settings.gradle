@@ -3,6 +3,6 @@ include 'core-types'
 include 'ktg8-client-core'
 include 'ktg8-server'
 include 'ktg8-spigot'
-
-
+include 'ktg8-server-api'
+include 'ktg8-client-core-api'
 

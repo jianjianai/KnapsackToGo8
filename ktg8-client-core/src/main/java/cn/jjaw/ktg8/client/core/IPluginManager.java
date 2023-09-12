@@ -1,8 +1,5 @@
 package cn.jjaw.ktg8.client.core;
 
-import cn.jjaw.ktg8.client.api.ClientPluginManager;
-import cn.jjaw.ktg8.client.api.KTG8ClientPlugin;
-
 import java.util.HashMap;
 import java.util.Map;
 

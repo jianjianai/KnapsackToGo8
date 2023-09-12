@@ -1,6 +1,5 @@
 package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.server.api.KTG8Server;
 import cn.jjaw.ktg8.type.core.BaseMessage;
 import cn.jjaw.ktg8.type.core.DataMessage;
 import cn.jjaw.ktg8.type.core.HandshakeMessageServer;
@@ -53,7 +52,7 @@ public class IKTG8Server implements KTG8Server {
         switch (baseMessage.type()){
             case handshake -> {
                 HandshakeMessageServer handshake = baseMessage.data().to(HandshakeMessageServer.class);
-                if(handshake ==null || handshake.serverID()==null || handshake.serverType()==null){
+                if(handshake ==null || handshake.serverID()==null){
                     logger.warn("收到来自 "+conn.getRemoteSocketAddress()+" 的消息不规范 obj:HandshakeMessageServer:"+handshake+" json:"+baseMessage.data());
                     break;
                 }

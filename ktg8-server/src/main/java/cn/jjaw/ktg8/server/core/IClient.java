@@ -2,9 +2,6 @@ package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.type.core.BaseMessage;
 import cn.jjaw.ktg8.type.core.DataMessage;
-import cn.jjaw.ktg8.type.core.ServerType;
-import cn.jjaw.ktg8.server.api.Client;
-import cn.jjaw.ktg8.server.api.KTG8Plugin;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import org.java_websocket.WebSocket;
@@ -16,26 +13,16 @@ class IClient implements Client {
      * 服务器id
      */
     final String serverID;
-    /**
-     * 服务器类型
-     */
-    final ServerType serverType;
 
-    public IClient(IClientManager clientManager, WebSocket webSocket, String serverID, ServerType serverType) {
+    public IClient(IClientManager clientManager, WebSocket webSocket, String serverID) {
         this.clientManager = clientManager;
         this.webSocket = webSocket;
         this.serverID = serverID;
-        this.serverType = serverType;
     }
 
     @Override
     public String getServerID() {
         return serverID;
-    }
-
-    @Override
-    public ServerType getServerType() {
-        return serverType;
     }
 
     @Override
@@ -70,6 +57,6 @@ class IClient implements Client {
 
     @Override
     public String toString() {
-        return "type:"+serverType+" id:"+serverID;
+        return "id:"+serverID;
     }
 }

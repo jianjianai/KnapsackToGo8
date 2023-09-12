@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.fastjson2.JSONObject;
 
-import cn.jjaw.ktg8.server.api.Client;
-import cn.jjaw.ktg8.server.api.RequestAccept;
+import cn.jjaw.ktg8.server.core.Client;
+import cn.jjaw.ktg8.server.core.RequestAccept;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorage;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorage;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorageManager;

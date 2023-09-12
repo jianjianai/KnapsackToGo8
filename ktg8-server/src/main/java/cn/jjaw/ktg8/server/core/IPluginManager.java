@@ -1,7 +1,5 @@
 package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.server.api.KTG8Plugin;
-import cn.jjaw.ktg8.server.api.PluginManager;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;

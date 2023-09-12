@@ -1,7 +1,7 @@
 package cn.jjaw.ktg8.server.builtin.kvPairStorage;
 
 import cn.jja8.config.tool.YamlConfig;
-import cn.jjaw.ktg8.server.api.KTG8Plugin;
+import cn.jjaw.ktg8.server.core.KTG8Plugin;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.api.PairStorageManager;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.pairManagers.sqlite.SqliteStorageManager;
 

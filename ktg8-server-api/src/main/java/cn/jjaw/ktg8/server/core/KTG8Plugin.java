@@ -1,7 +1,6 @@
-package cn.jjaw.ktg8.server.api;
+package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.server.Main;
-import cn.jjaw.ktg8.server.core.IPluginManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

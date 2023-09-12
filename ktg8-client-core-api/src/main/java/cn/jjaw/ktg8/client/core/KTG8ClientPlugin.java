@@ -1,6 +1,5 @@
-package cn.jjaw.ktg8.client.api;
+package cn.jjaw.ktg8.client.core;
 
-import cn.jjaw.ktg8.client.core.IPluginManager;
 import com.alibaba.fastjson2.JSONObject;
 
 public class KTG8ClientPlugin {

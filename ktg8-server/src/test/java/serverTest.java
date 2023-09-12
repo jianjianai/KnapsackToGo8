@@ -1,10 +1,3 @@
-import cn.jjaw.ktg8.server.Main;
-import cn.jjaw.ktg8.server.api.KTG8;
-import cn.jjaw.ktg8.server.api.KTG8Plugin;
-import cn.jjaw.ktg8.server.api.RequestAccept;
-import cn.jjaw.ktg8.server.builtin.Builtin;
-import com.alibaba.fastjson2.JSONObject;
-
 import java.io.File;
 
 public class serverTest {

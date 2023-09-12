@@ -20,6 +20,8 @@ dependencies {
     implementation 'com.alibaba.fastjson2:fastjson2:2.0.38'
     //base
     implementation project(":core-types")
+    //api
+    implementation project(":ktg8-server-api")
 
 
     // 数据库框架

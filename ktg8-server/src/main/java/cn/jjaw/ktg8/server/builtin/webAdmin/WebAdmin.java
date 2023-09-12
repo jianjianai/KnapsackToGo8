@@ -1,8 +1,8 @@
 package cn.jjaw.ktg8.server.builtin.webAdmin;
 
 import cn.jja8.config.tool.YamlConfig;
-import cn.jjaw.ktg8.server.api.KTG8;
-import cn.jjaw.ktg8.server.api.KTG8Plugin;
+import cn.jjaw.ktg8.server.core.KTG8;
+import cn.jjaw.ktg8.server.core.KTG8Plugin;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.File;

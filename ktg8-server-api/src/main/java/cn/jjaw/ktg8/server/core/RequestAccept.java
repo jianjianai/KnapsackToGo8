@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.server.api;
+package cn.jjaw.ktg8.server.core;
 
 import cn.jjaw.ktg8.type.core.RADataRequestAccept;
 import cn.jjaw.ktg8.type.core.RSRequestError;

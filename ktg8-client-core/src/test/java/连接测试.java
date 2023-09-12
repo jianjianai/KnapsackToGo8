@@ -1,7 +1,6 @@
-import cn.jjaw.ktg8.client.api.ClientRequestSend;
-import cn.jjaw.ktg8.client.api.KTG8ClientPlugin;
+import cn.jjaw.ktg8.client.core.ClientRequestSend;
 import cn.jjaw.ktg8.client.core.IKTG8Client;
-import cn.jjaw.ktg8.type.core.ServerType;
+import cn.jjaw.ktg8.client.core.KTG8ClientPlugin;
 import com.alibaba.fastjson2.JSONObject;
 
 import java.net.URI;
@@ -12,7 +11,7 @@ public class 连接测试 {
         public String ss = "asdasd";
     }
     public static void main(String[] args) throws URISyntaxException {
-        IKTG8Client iktg8Client = new IKTG8Client(new URI("ws://localhost:33338"), ServerType.Spigot, "666") {
+        IKTG8Client iktg8Client = new IKTG8Client(new URI("ws://localhost:33338"), "666") {
 
             @Override
             protected void onConnectionDisconnected() {
