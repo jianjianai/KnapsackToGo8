@@ -38,6 +38,6 @@ test {
 
 jar{
     manifest {
-        attributes 'Main-Class': 'cn.jjaw.ktg8.server.Main'
+        attributes 'Main-Class': 'cn.jjaw.ktg8.server.core.Main'
     }
 }

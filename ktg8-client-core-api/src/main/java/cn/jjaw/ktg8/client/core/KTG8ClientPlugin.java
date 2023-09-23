@@ -1,15 +1,19 @@
 package cn.jjaw.ktg8.client.core;
 
 import com.alibaba.fastjson2.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class KTG8ClientPlugin {
-    private final IPluginManager pluginManager;
+    private final ClientPluginManager pluginManager;
     private final String name;
+    private final Logger logger;
 
-    public KTG8ClientPlugin(IPluginManager iPluginManager, String name) {
+    protected KTG8ClientPlugin(ClientPluginManager iPluginManager, String name) {
         this.name = name;
         this.pluginManager = iPluginManager;
-        iPluginManager.addPlugin(this);
+        this.logger = LoggerFactory.getLogger(name);
     }
 
     /**
@@ -31,5 +35,9 @@ public class KTG8ClientPlugin {
      */
     public ClientPluginManager getPluginManager() {
         return pluginManager;
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }

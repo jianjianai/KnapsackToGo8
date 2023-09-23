@@ -1,5 +1,6 @@
 package cn.jjaw.ktg8.server.builtin.kvPairLookStorage;
 
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorageApi;
 import cn.jjaw.ktg8.server.core.KTG8;
 import cn.jjaw.ktg8.server.core.KTG8Plugin;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorage;
@@ -15,7 +16,7 @@ public class KvPairLookStorage extends KTG8Plugin{
     @Override
     public void onEnable() {
         KvPairStorage kvPairStorage = (KvPairStorage)KTG8.getPluginManager().getKTG8Plugin("kvPairStorage");
-        pairLookStorageManager = new PairLookStorageManager(kvPairStorage.getPairStorageManager());
+        pairLookStorageManager = new PairLookStorageManager(KvPairStorageApi.getPairStorageManager());
     }
 
     public PairLookStorageManager getPairLookStorageManager() {

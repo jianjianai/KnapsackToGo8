@@ -1,14 +1,13 @@
-import cn.jjaw.ktg8.server.Main;
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorage;
+import cn.jjaw.ktg8.server.core.Main;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorageApi;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorage;
-import cn.jjaw.ktg8.server.builtin.kvPairStorage.pairManagers.sqlite.SqliteStorageManager;
+import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorageManager;
 
 public class sqllite测试 {
     public static void main(String[] args) {
         Main.main(args);
 
-        KvPairStorage kvPairStorage = KvPairStorage.getKvPairStorage();
-        SqliteStorageManager manager = (SqliteStorageManager) kvPairStorage.getPairStorageManager();
+        PairStorageManager manager =  KvPairStorageApi.getPairStorageManager();
         PairStorage qwe = manager.createPairStorage("qwe");
         System.out.println(manager.pairStorages());
 

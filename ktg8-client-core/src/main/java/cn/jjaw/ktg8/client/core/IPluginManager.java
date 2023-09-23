@@ -14,17 +14,19 @@ public class IPluginManager implements ClientPluginManager {
 
     /**
      * 添加一个插件
+     * @return 这个被添加的对象
      */
-     public void addPlugin(KTG8ClientPlugin ktg8Plugin){
+     public KTG8ClientPlugin addPlugin(KTG8ClientPlugin ktg8Plugin){
          if(pluginMap.containsKey(ktg8Plugin.getName())){
              throw new Error(ktg8Plugin.getName()+" 有一个同名的插件已注册！");
          }
          pluginMap.put(ktg8Plugin.getName(),ktg8Plugin);
+         return ktg8Plugin;
      }
 
     @Override
     public KTG8ClientPlugin createPlugin(String name) {
-        return new KTG8ClientPlugin(this,name);
+        return addPlugin(new KTG8ClientPlugin(this,name));
     }
 
     @Override

@@ -27,7 +27,7 @@ public class KvPairStorage extends KTG8Plugin {
     /**
      * 获取键值对库管理器
      */
-    public PairStorageManager getPairStorageManager() {
+    private PairStorageManager getPairStorageManager() {
         if (!ok){
             throw new Error("数据库没有正确加载,请检查 KvPairStorageConfig.yaml 配置文件！ 可用列表: sqlite");
         }
@@ -48,6 +48,7 @@ public class KvPairStorage extends KTG8Plugin {
         if (pairStorageManager!=null){
             ok = true;
         }
+        KvPairStorageApi.pairStorageManager = getPairStorageManager();
     }
 
     @Override

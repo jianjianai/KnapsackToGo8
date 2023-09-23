@@ -20,6 +20,7 @@ allprojects {
     // java版本
     def targetJavaVersion = 17
     java {
+        withSourcesJar()
         def javaVersion = JavaVersion.toVersion(targetJavaVersion)
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
@@ -42,16 +43,10 @@ allprojects {
     }
 
     // 打包sourcesJar任务
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        archiveClassifier.set('sources')
-        from sourceSets.main.allSource
-    }
-
     publishing {
         publications {
             myPublish(MavenPublication){
                 from components.java
-                artifact sourcesJar
             }
         }
         repositories {

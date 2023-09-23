@@ -5,18 +5,18 @@ import cn.jjaw.ktg8.type.core.RSRequestError;
 import cn.jjaw.ktg8.type.core.RSRequestError.ErrorType;
 import cn.jjaw.ktg8.type.core.RSRequestSend;
 import com.alibaba.fastjson2.JSONObject;
+import org.slf4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static cn.jjaw.ktg8.server.core.Logger.logger;
-
 /**
  *  一个请求接发送器对象，一个简化通信的实现
  */
 public class RequestSend {
+    private final Logger logger;
     private final ScheduledThreadPoolExecutor executor = KTG8.getExecutor();
     private final KTG8Plugin ktg8Plugin;
     private final String listenerID;
@@ -42,6 +42,7 @@ public class RequestSend {
         this.ktg8Plugin = ktg8Plugin;
         this.listenerID = listenerID;
         this.listenerManager = messageListenerManager;
+        this.logger = ktg8Plugin.getLogger();
     }
 
     private void onMessage(Client client, JSONObject data, MessageListenWorker messageListenWorker) {

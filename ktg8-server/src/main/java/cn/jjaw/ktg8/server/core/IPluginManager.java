@@ -15,14 +15,14 @@ import java.util.*;
 
 import static cn.jjaw.ktg8.server.core.Logger.logger;
 
-public class IPluginManager implements PluginManager {
+public class IPluginManager extends PluginManager {
      private final Map<String, KTG8Plugin> pluginMap = new HashMap<>();
      private boolean isCanAdd = true;
 
     /**
      * 添加一个插件
      */
-     public void addPlugin(KTG8Plugin ktg8Plugin){
+     protected void addPlugin(KTG8Plugin ktg8Plugin){
          if(!isCanAdd){
              throw new Error("加载阶段已结束，无法继续添加插件！必须load前触发添加插件。");
          }

@@ -10,7 +10,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly project(":ktg8-client-core")
     //日志
     compileOnly 'org.slf4j:slf4j-api:2.0.7'
     //fastjson2

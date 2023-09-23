@@ -1,6 +1,5 @@
 package cn.jjaw.ktg8.server.core;
 
-import cn.jjaw.ktg8.server.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +7,7 @@ import java.io.File;
 
 public abstract class KTG8Plugin {
     private final Logger logger;
-    private final IPluginManager pluginManager;
+    private final PluginManager pluginManager;
     private final String name;
     private final String[] depends;
     private final File dataFolder;
@@ -20,7 +19,7 @@ public abstract class KTG8Plugin {
         if(name==null){
             throw new NullPointerException("name is null");
         }
-        pluginManager = Main.getPluginManager();
+        pluginManager = KTG8.getPluginManager();
         if (pluginManager==null){
             throw new Error("插件必须在PluginManager实例化之后才能实例化！");
         }
