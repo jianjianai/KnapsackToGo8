@@ -1,5 +1,6 @@
 package cn.jjaw.ktg8.server.core;
 
+import cn.jjaw.ktg8.server.event.client.SendingClientMessagesEvent;
 import cn.jjaw.ktg8.type.core.BaseMessage;
 import cn.jjaw.ktg8.type.core.DataMessage;
 import com.alibaba.fastjson2.JSON;
@@ -31,19 +32,23 @@ class IClient implements Client {
     }
 
     void sendMessage(String pluginName, String iId, JSONObject jsonObject) {
-        if (!webSocket.isOpen()) {
-            new Error(webSocket.getRemoteSocketAddress()+" "+this+" 连接已关闭！ 无法发送消息。").printStackTrace();
-            return;
+        SendingClientMessagesEvent event = new SendingClientMessagesEvent(this,pluginName,iId,jsonObject);
+        KTG8.getEventManager().execute(event);
+        if (!event.isCancel()){
+            if (!webSocket.isOpen()) {
+                new Error(webSocket.getRemoteSocketAddress()+" "+this+" 连接已关闭！ 无法发送消息。").printStackTrace();
+                return;
+            }
+            //发送数据消息
+            webSocket.send(JSON.toJSONString(new BaseMessage(
+                    BaseMessage.BaseMessageType.data,
+                    JSONObject.from(new DataMessage(
+                            event.getPlugin(),
+                            event.getId(),
+                            event.getData()
+                    ))
+            )));
         }
-        //发送数据消息
-        webSocket.send(JSON.toJSONString(new BaseMessage(
-                BaseMessage.BaseMessageType.data,
-                JSONObject.from(new DataMessage(
-                        pluginName,
-                        iId,
-                        jsonObject
-                ))
-        )));
     }
 
     /**

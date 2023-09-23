@@ -28,7 +28,8 @@ dependencies {
     implementation 'org.mybatis:mybatis:3.5.13'
     // jdbc sqlite
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
-
+    // 事件处理程序
+    implementation 'cn.jjaw:easy-event:v1.1.1'
 
 }
 

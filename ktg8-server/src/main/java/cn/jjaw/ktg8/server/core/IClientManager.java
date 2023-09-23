@@ -1,5 +1,8 @@
 package cn.jjaw.ktg8.server.core;
 
+import cn.jjaw.ktg8.server.event.client.ClientDisconnectEvent;
+import cn.jjaw.ktg8.server.event.client.ReceivedClientMessagesEvent;
+import cn.jjaw.ktg8.server.event.client.ClientSuccessfullyConnectedEvent;
 import cn.jjaw.ktg8.type.core.BaseMessage;
 import cn.jjaw.ktg8.type.core.DataMessage;
 import cn.jjaw.ktg8.type.core.HandshakeMessageClient;
@@ -86,6 +89,7 @@ class IClientManager implements ClientManager {
         );
         //打印日志
         if(client!=null){
+            KTG8.getEventManager().execute(new ClientSuccessfullyConnectedEvent(client));
             logger.info(webSocket.getRemoteSocketAddress()+" 建立连接成功 "+client);
         }else {
             logger.info(webSocket.getRemoteSocketAddress()+" 建立连接失败,原因:"+handshakeMessageClient.reason());
@@ -99,25 +103,37 @@ class IClientManager implements ClientManager {
     void onMessage(WebSocket webSocket, DataMessage dataMessage){
         IClient client = getClient(webSocket);
         if(client==null){
+            logger.warn("没有找到"+webSocket.getRemoteSocketAddress()+"的客户端！");
             return;
         }
-        IMessageListenWorker listenWorker = listenerManager.getListenWorker(dataMessage.plugin(), dataMessage.id());
-        if(listenWorker==null){
-            logger.warn("没有找到"+dataMessage.plugin()+":"+dataMessage.id()+"监听器！");
-            return;
+        //执行事件
+        ReceivedClientMessagesEvent event = new ReceivedClientMessagesEvent(client, dataMessage.plugin(), dataMessage.id(),dataMessage.data());
+        KTG8.getEventManager().execute(event);
+        if (!event.isCancel()){
+            //如果没有被取消就交给监听器处理
+            IMessageListenWorker listenWorker = listenerManager.getListenWorker(event.getPlugin(), event.getId());
+            if(listenWorker==null){
+                logger.warn("没有找到"+event.getPlugin()+":"+event.getId()+"监听器！");
+                return;
+            }
+            listenWorker.onMessage(client,event.getData());
         }
-        listenWorker.onMessage(client,dataMessage.data());
+
     }
 
     /**
      * 关闭，一个客户端断开连接
      */
     void onDisconnect(WebSocket webSocket){
+        IClient iClient;
         synchronized(this){
-            IClient iClient = getClient(webSocket);
+            iClient= getClient(webSocket);
             if(iClient!=null){
                 removeIClient(iClient);
             }
+        }
+        if (iClient!=null){
+            KTG8.getEventManager().execute(new ClientDisconnectEvent(iClient));
         }
         logger.info(webSocket.getRemoteSocketAddress()+" 已断开连接");
     }

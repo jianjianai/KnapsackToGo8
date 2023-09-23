@@ -2,6 +2,7 @@ package cn.jjaw.ktg8.server.core;
 
 
 import cn.jja8.config.tool.YamlConfig;
+import cn.jjaw.easyevent.EventManager;
 import cn.jjaw.ktg8.server.builtin.Builtin;
 
 import java.io.File;
@@ -23,6 +24,7 @@ public class Main extends KTG8{
                 -----------------------------------
                 """);
         logger.info("正在启动..");
+        eventManager = new EventManager();
         logger.info("正在加载配置文件 server.yaml ..");
         new YamlConfig()
                 .load(new File("server.yaml"))
