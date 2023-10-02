@@ -1,5 +1,9 @@
-package cn.jjaw.ktg8.client.core;
+package cn.jjaw.ktg8.client.util;
 
+import cn.jjaw.ktg8.client.core.ClientMessageListenWorker;
+import cn.jjaw.ktg8.client.core.ClientMessageListenerManager;
+import cn.jjaw.ktg8.client.core.KTG8Client;
+import cn.jjaw.ktg8.client.core.KTG8ClientPlugin;
 import cn.jjaw.ktg8.type.core.RADataRequestAccept;
 import cn.jjaw.ktg8.type.core.RSRequestError;
 import cn.jjaw.ktg8.type.core.RSRequestSend;

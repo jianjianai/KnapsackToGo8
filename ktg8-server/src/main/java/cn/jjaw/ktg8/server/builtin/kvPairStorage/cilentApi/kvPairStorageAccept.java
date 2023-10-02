@@ -5,7 +5,7 @@ import cn.jjaw.ktg8.server.builtin.kvPairStorage.KvPairStorageApi;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorage;
 import cn.jjaw.ktg8.server.builtin.kvPairStorage.PairStorageManager;
 import cn.jjaw.ktg8.server.core.Client;
-import cn.jjaw.ktg8.server.core.RequestAccept;
+import cn.jjaw.ktg8.server.util.RequestAccept;
 import cn.jjaw.ktg8.type.builtin.kvPairStorage.cilentApi.*;
 import com.alibaba.fastjson2.JSONObject;
 import static cn.jjaw.ktg8.type.builtin.kvPairStorage.cilentApi.RequestName.*;

@@ -1,4 +1,4 @@
-import cn.jjaw.ktg8.client.core.ClientRequestSend;
+import cn.jjaw.ktg8.client.util.ClientRequestSend;
 import cn.jjaw.ktg8.client.core.IKTG8Client;
 import cn.jjaw.ktg8.client.core.KTG8ClientPlugin;
 import com.alibaba.fastjson2.JSONObject;
