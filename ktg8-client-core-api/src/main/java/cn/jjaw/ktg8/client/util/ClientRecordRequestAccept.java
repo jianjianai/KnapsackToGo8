@@ -8,18 +8,18 @@ import com.alibaba.fastjson2.JSONObject;
 /**
  * 一个请求接收器对象，一个简化通信的实现
  */
-public class RecordRequestAccept<Accept extends Record,R extends Record> {
+public class ClientRecordRequestAccept<Accept extends Record,R extends Record> {
     private final ClientRequestAccept requestAccept;
     private final  Class<Accept> acceptClass;
     private final  Class<R> returnClass;
 
-    public RecordRequestAccept(KTG8Client ktg8Client, KTG8ClientPlugin ktg8Plugin, String listenerID, Class<Accept> acceptClass, Class<R> returnClass) {
+    public ClientRecordRequestAccept(KTG8Client ktg8Client, KTG8ClientPlugin ktg8Plugin, String listenerID, Class<Accept> acceptClass, Class<R> returnClass) {
         this.requestAccept = new ClientRequestAccept(ktg8Client,ktg8Plugin,listenerID);
         this.acceptClass = acceptClass;
         this.returnClass = returnClass;
     }
 
-    public RecordRequestAccept(ClientMessageListenerManager messageListenerManager,KTG8ClientPlugin ktg8Plugin, String listenerID, Class<Accept> acceptClass, Class<R> returnClass) {
+    public ClientRecordRequestAccept(ClientMessageListenerManager messageListenerManager, KTG8ClientPlugin ktg8Plugin, String listenerID, Class<Accept> acceptClass, Class<R> returnClass) {
         this.requestAccept = new ClientRequestAccept(messageListenerManager,ktg8Plugin,listenerID);
         this.acceptClass = acceptClass;
         this.returnClass = returnClass;
@@ -29,7 +29,7 @@ public class RecordRequestAccept<Accept extends Record,R extends Record> {
      * 设置请求处理器
      * @param worker 建议使用lambda表达式或者方法引用
      */
-    public RecordRequestAccept<Accept,R> setWorker(Worker<Accept,R> worker){
+    public ClientRecordRequestAccept<Accept,R> setWorker(Worker<Accept,R> worker){
         if (worker==null){
             throw new NullPointerException("the worker is null");
         }
@@ -43,14 +43,14 @@ public class RecordRequestAccept<Accept extends Record,R extends Record> {
     /**
      * 开始接收请求
      */
-    public RecordRequestAccept<Accept,R> start(){
+    public ClientRecordRequestAccept<Accept,R> start(){
         requestAccept.start();
         return this;
     }
     /**
      * 停止接收请求
      */
-    public RecordRequestAccept<Accept,R> stop(){
+    public ClientRecordRequestAccept<Accept,R> stop(){
         requestAccept.stop();
         return this;
     }
