@@ -1,10 +1,10 @@
 package cn.jjaw.ktg8.server.util;
 
 import cn.jjaw.ktg8.server.core.*;
-import cn.jjaw.ktg8.type.core.RADataRequestAccept;
-import cn.jjaw.ktg8.type.core.RSRequestError;
-import cn.jjaw.ktg8.type.core.RSRequestError.ErrorType;
-import cn.jjaw.ktg8.type.core.RSRequestSend;
+import cn.jjaw.ktg8.type.util.RADataRequestAccept;
+import cn.jjaw.ktg8.type.util.RSRequestError;
+import cn.jjaw.ktg8.type.util.RSRequestError.ErrorType;
+import cn.jjaw.ktg8.type.util.RSRequestSend;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 

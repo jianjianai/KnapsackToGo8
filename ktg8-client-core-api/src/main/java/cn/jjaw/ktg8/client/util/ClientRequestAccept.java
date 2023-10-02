@@ -4,9 +4,9 @@ import cn.jjaw.ktg8.client.core.ClientMessageListenWorker;
 import cn.jjaw.ktg8.client.core.ClientMessageListenerManager;
 import cn.jjaw.ktg8.client.core.KTG8Client;
 import cn.jjaw.ktg8.client.core.KTG8ClientPlugin;
-import cn.jjaw.ktg8.type.core.RADataRequestAccept;
-import cn.jjaw.ktg8.type.core.RSRequestError;
-import cn.jjaw.ktg8.type.core.RSRequestSend;
+import cn.jjaw.ktg8.type.util.RADataRequestAccept;
+import cn.jjaw.ktg8.type.util.RSRequestError;
+import cn.jjaw.ktg8.type.util.RSRequestSend;
 import com.alibaba.fastjson2.JSONObject;
 
 /**

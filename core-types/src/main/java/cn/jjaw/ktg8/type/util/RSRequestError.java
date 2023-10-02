@@ -1,4 +1,4 @@
-package cn.jjaw.ktg8.type.core;
+package cn.jjaw.ktg8.type.util;
 
 public record RSRequestError(
         ErrorType code,
